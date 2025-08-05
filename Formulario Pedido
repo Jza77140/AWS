@@ -15,18 +15,16 @@
 </head>
 <body class="bg-gray-100">
 
-    <div class="container mx-auto px-4 py-8 max-w-4xl">
+    <div class="container mx-auto px-4 py-8 max-w-5xl">
         <div class="bg-white shadow-xl rounded-lg p-6 md:p-10 border border-gray-200">
-            <!-- El título del formulario ha sido reincorporado según lo solicitado -->
+            <!-- Título del formulario -->
             <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-6">Formulario de Pedido AWS</h1>
             
-            <!-- Se ha reducido el espacio entre las secciones de `space-y-6` a `space-y-4` para un diseño más compacto. -->
             <form id="orderForm" class="space-y-4">
 
                 <!-- Sección: Datos de la vendedora -->
                 <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
                     <h2 class="text-2xl font-semibold text-gray-700 mb-4">Datos de la Vendedora</h2>
-                    <!-- Se ha reducido el espacio entre los campos de `gap-6` a `gap-4` -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label for="vendedora" class="block text-sm font-medium text-gray-700 mb-1">Vendedor/a</label>
@@ -37,7 +35,6 @@
                             </select>
                         </div>
                         <div>
-                            <!-- La etiqueta ha sido cambiada de "Fecha del pedido" a "Pedido" -->
                             <label for="fecha" class="block text-sm font-medium text-gray-700 mb-1">Pedido</label>
                             <input type="date" id="fecha" name="fecha" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
                         </div>
@@ -47,7 +44,6 @@
                 <!-- Sección: Datos del cliente -->
                 <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
                     <h2 class="text-2xl font-semibold text-gray-700 mb-4">Datos del Cliente</h2>
-                    <!-- Se ha reducido el espacio entre los campos de `gap-6` a `gap-4` y el espacio vertical de `space-y-4` a `space-y-2` -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 space-y-2 md:space-y-0">
                         <div>
                             <label for="cliente" class="block text-sm font-medium text-gray-700 mb-1">Nombre del cliente</label>
@@ -57,12 +53,10 @@
                             <label for="razon_social" class="block text-sm font-medium text-gray-700 mb-1">Razón Social</label>
                             <input type="text" id="razon_social" name="razon_social" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                         </div>
-                        <!-- Nuevo campo para Dirección Legal -->
                         <div>
                             <label for="direccion_legal" class="block text-sm font-medium text-gray-700 mb-1">Dirección Legal</label>
                             <input type="text" id="direccion_legal" name="direccion_legal" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                         </div>
-                        <!-- Campo modificado para Dirección de entrega, sin que ocupe el ancho completo -->
                         <div>
                             <label for="direccion" class="block text-sm font-medium text-gray-700 mb-1">Dirección de entrega, fecha y horario aproximado</label>
                             <textarea id="direccion" name="direccion" rows="3" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required></textarea>
@@ -92,54 +86,156 @@
                     </div>
                 </div>
 
-                <!-- Sección: Referencias de productos (con 8 campos libres) -->
+                <!-- Sección: Referencias de productos (con 8 campos desplegables) -->
                 <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
                     <h2 class="text-2xl font-semibold text-gray-700 mb-4">Referencias</h2>
-                    <!-- Se ha reducido el espacio entre las columnas de `gap-4` a `gap-3` -->
                     <div class="grid grid-cols-12 gap-3 items-end">
-                        <label class="col-span-10 block text-sm font-medium text-gray-700">Referencias</label>
+                        <label class="col-span-4 block text-sm font-medium text-gray-700">Bodega</label>
+                        <label class="col-span-6 block text-sm font-medium text-gray-700">Referencia</label>
                         <label class="col-span-2 block text-sm font-medium text-gray-700 text-center">Cantidad</label>
                     </div>
-                    <!-- Generar 8 pares de campos de referencia y cantidad -->
-                    <!-- Se ha ajustado el margen superior de `mt-2` a `mt-1` para un espacio más uniforme. -->
-                    <!-- Campo 1 -->
+                    <!-- Fila 1 -->
                     <div class="grid grid-cols-12 gap-3 items-center mt-1">
-                        <input type="text" name="referencia_1" class="ref-input col-span-10 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <select name="bodega_1" class="winery-select col-span-4 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option value="" disabled selected>Selecciona bodega</option>
+                            <option value="A Corazon Abierto">A Corazon Abierto</option>
+                            <option value="Amosa">Amosa</option>
+                            <option value="Familia Kretschmar">Familia Kretschmar</option>
+                            <option value="Tiammat">Tiammat</option>
+                            <option value="Iaccarini">Iaccarini</option>
+                            <option value="Che Bandoneon">Che Bandoneon</option>
+                            <option value="Aicardi">Aicardi</option>
+                            <option value="Schiavi">Schiavi</option>
+                        </select>
+                        <select name="referencia_1" class="reference-select col-span-6 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option value="" disabled selected>Selecciona una referencia</option>
+                        </select>
                         <input type="number" name="cantidad_1" min="1" class="qty-input col-span-2 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-center">
                     </div>
-                    <!-- Campo 2 -->
+                    <!-- Fila 2 -->
                     <div class="grid grid-cols-12 gap-3 items-center mt-1">
-                        <input type="text" name="referencia_2" class="ref-input col-span-10 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <select name="bodega_2" class="winery-select col-span-4 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option value="" disabled selected>Selecciona bodega</option>
+                            <option value="A Corazon Abierto">A Corazon Abierto</option>
+                            <option value="Amosa">Amosa</option>
+                            <option value="Familia Kretschmar">Familia Kretschmar</option>
+                            <option value="Tiammat">Tiammat</option>
+                            <option value="Iaccarini">Iaccarini</option>
+                            <option value="Che Bandoneon">Che Bandoneon</option>
+                            <option value="Aicardi">Aicardi</option>
+                            <option value="Schiavi">Schiavi</option>
+                        </select>
+                        <select name="referencia_2" class="reference-select col-span-6 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option value="" disabled selected>Selecciona una referencia</option>
+                        </select>
                         <input type="number" name="cantidad_2" min="1" class="qty-input col-span-2 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-center">
                     </div>
-                    <!-- Campo 3 -->
+                    <!-- Fila 3 -->
                     <div class="grid grid-cols-12 gap-3 items-center mt-1">
-                        <input type="text" name="referencia_3" class="ref-input col-span-10 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <select name="bodega_3" class="winery-select col-span-4 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option value="" disabled selected>Selecciona bodega</option>
+                            <option value="A Corazon Abierto">A Corazon Abierto</option>
+                            <option value="Amosa">Amosa</option>
+                            <option value="Familia Kretschmar">Familia Kretschmar</option>
+                            <option value="Tiammat">Tiammat</option>
+                            <option value="Iaccarini">Iaccarini</option>
+                            <option value="Che Bandoneon">Che Bandoneon</option>
+                            <option value="Aicardi">Aicardi</option>
+                            <option value="Schiavi">Schiavi</option>
+                        </select>
+                        <select name="referencia_3" class="reference-select col-span-6 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option value="" disabled selected>Selecciona una referencia</option>
+                        </select>
                         <input type="number" name="cantidad_3" min="1" class="qty-input col-span-2 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-center">
                     </div>
-                    <!-- Campo 4 -->
+                    <!-- Fila 4 -->
                     <div class="grid grid-cols-12 gap-3 items-center mt-1">
-                        <input type="text" name="referencia_4" class="ref-input col-span-10 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <select name="bodega_4" class="winery-select col-span-4 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option value="" disabled selected>Selecciona bodega</option>
+                            <option value="A Corazon Abierto">A Corazon Abierto</option>
+                            <option value="Amosa">Amosa</option>
+                            <option value="Familia Kretschmar">Familia Kretschmar</option>
+                            <option value="Tiammat">Tiammat</option>
+                            <option value="Iaccarini">Iaccarini</option>
+                            <option value="Che Bandoneon">Che Bandoneon</option>
+                            <option value="Aicardi">Aicardi</option>
+                            <option value="Schiavi">Schiavi</option>
+                        </select>
+                        <select name="referencia_4" class="reference-select col-span-6 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option value="" disabled selected>Selecciona una referencia</option>
+                        </select>
                         <input type="number" name="cantidad_4" min="1" class="qty-input col-span-2 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-center">
                     </div>
-                    <!-- Campo 5 -->
+                    <!-- Fila 5 -->
                     <div class="grid grid-cols-12 gap-3 items-center mt-1">
-                        <input type="text" name="referencia_5" class="ref-input col-span-10 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <select name="bodega_5" class="winery-select col-span-4 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option value="" disabled selected>Selecciona bodega</option>
+                            <option value="A Corazon Abierto">A Corazon Abierto</option>
+                            <option value="Amosa">Amosa</option>
+                            <option value="Familia Kretschmar">Familia Kretschmar</option>
+                            <option value="Tiammat">Tiammat</option>
+                            <option value="Iaccarini">Iaccarini</option>
+                            <option value="Che Bandoneon">Che Bandoneon</option>
+                            <option value="Aicardi">Aicardi</option>
+                            <option value="Schiavi">Schiavi</option>
+                        </select>
+                        <select name="referencia_5" class="reference-select col-span-6 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option value="" disabled selected>Selecciona una referencia</option>
+                        </select>
                         <input type="number" name="cantidad_5" min="1" class="qty-input col-span-2 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-center">
                     </div>
-                    <!-- Campo 6 -->
+                    <!-- Fila 6 -->
                     <div class="grid grid-cols-12 gap-3 items-center mt-1">
-                        <input type="text" name="referencia_6" class="ref-input col-span-10 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <select name="bodega_6" class="winery-select col-span-4 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option value="" disabled selected>Selecciona bodega</option>
+                            <option value="A Corazon Abierto">A Corazon Abierto</option>
+                            <option value="Amosa">Amosa</option>
+                            <option value="Familia Kretschmar">Familia Kretschmar</option>
+                            <option value="Tiammat">Tiammat</option>
+                            <option value="Iaccarini">Iaccarini</option>
+                            <option value="Che Bandoneon">Che Bandoneon</option>
+                            <option value="Aicardi">Aicardi</option>
+                            <option value="Schiavi">Schiavi</option>
+                        </select>
+                        <select name="referencia_6" class="reference-select col-span-6 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option value="" disabled selected>Selecciona una referencia</option>
+                        </select>
                         <input type="number" name="cantidad_6" min="1" class="qty-input col-span-2 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-center">
                     </div>
-                    <!-- Campo 7 -->
+                    <!-- Fila 7 -->
                     <div class="grid grid-cols-12 gap-3 items-center mt-1">
-                        <input type="text" name="referencia_7" class="ref-input col-span-10 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <select name="bodega_7" class="winery-select col-span-4 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option value="" disabled selected>Selecciona bodega</option>
+                            <option value="A Corazon Abierto">A Corazon Abierto</option>
+                            <option value="Amosa">Amosa</option>
+                            <option value="Familia Kretschmar">Familia Kretschmar</option>
+                            <option value="Tiammat">Tiammat</option>
+                            <option value="Iaccarini">Iaccarini</option>
+                            <option value="Che Bandoneon">Che Bandoneon</option>
+                            <option value="Aicardi">Aicardi</option>
+                            <option value="Schiavi">Schiavi</option>
+                        </select>
+                        <select name="referencia_7" class="reference-select col-span-6 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option value="" disabled selected>Selecciona una referencia</option>
+                        </select>
                         <input type="number" name="cantidad_7" min="1" class="qty-input col-span-2 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-center">
                     </div>
-                    <!-- Campo 8 -->
+                    <!-- Fila 8 -->
                     <div class="grid grid-cols-12 gap-3 items-center mt-1">
-                        <input type="text" name="referencia_8" class="ref-input col-span-10 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <select name="bodega_8" class="winery-select col-span-4 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option value="" disabled selected>Selecciona bodega</option>
+                            <option value="A Corazon Abierto">A Corazon Abierto</option>
+                            <option value="Amosa">Amosa</option>
+                            <option value="Familia Kretschmar">Familia Kretschmar</option>
+                            <option value="Tiammat">Tiammat</option>
+                            <option value="Iaccarini">Iaccarini</option>
+                            <option value="Che Bandoneon">Che Bandoneon</option>
+                            <option value="Aicardi">Aicardi</option>
+                            <option value="Schiavi">Schiavi</option>
+                        </select>
+                        <select name="referencia_8" class="reference-select col-span-6 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option value="" disabled selected>Selecciona una referencia</option>
+                        </select>
                         <input type="number" name="cantidad_8" min="1" class="qty-input col-span-2 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-center">
                     </div>
                 </div>
@@ -152,33 +248,13 @@
                         <textarea id="observaciones" name="observaciones" rows="4" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
                     </div>
                 </div>
-
-                <!-- Botón de enviar -->
-                <div class="text-center pt-4">
-                    <button type="submit" class="w-full md:w-auto inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
-                        Enviar Pedido
-                    </button>
-                </div>
             </form>
 
-            <!-- Modal para el resumen del pedido -->
-            <div id="summaryModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
-                <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-2/3 lg:w-1/2 shadow-lg rounded-md bg-white">
-                    <div class="mt-3 text-center">
-                        <h3 class="text-lg leading-6 font-medium text-gray-900">Resumen del Pedido</h3>
-                        <div class="mt-2 px-7 py-3 max-h-96 overflow-y-auto text-left">
-                            <pre id="orderSummary" class="text-sm text-gray-700 whitespace-pre-wrap"></pre>
-                        </div>
-                        <div class="items-center px-4 py-3">
-                            <button id="copyButton" class="px-4 py-2 bg-green-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300 transition-colors duration-200">
-                                Copiar al portapapeles
-                            </button>
-                            <button id="closeButton" class="mt-3 px-4 py-2 bg-red-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 transition-colors duration-200">
-                                Cerrar
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            <!-- Botón único para enviar por WhatsApp -->
+            <div class="text-center pt-4">
+                <button id="submitWhatsappButton" class="w-full md:w-auto inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200">
+                    Enviar por WhatsApp
+                </button>
             </div>
         </div>
     </div>
@@ -186,24 +262,72 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const form = document.getElementById('orderForm');
-            const summaryModal = document.getElementById('summaryModal');
-            const orderSummaryElement = document.getElementById('orderSummary');
-            const closeButton = document.getElementById('closeButton');
-            const copyButton = document.getElementById('copyButton');
+            const submitWhatsappButton = document.getElementById('submitWhatsappButton');
+            const winerySelects = document.querySelectorAll('.winery-select');
+            const referenceSelects = document.querySelectorAll('.reference-select');
+
+            // Objeto con las referencias por bodega, basado en el archivo de imagen
+            const winesByWinery = {
+                "A Corazon Abierto": ["Malbec Etiqueta Negra", "Cabernet Franc Etiqueta Negra", "Cabernet Sauvignon Etiqueta Negra", "Gran Malbec", "Gran Corte"],
+                "Amosa": ["Amosa Chardonnay", "Amosa Rose", "Amosa Malbec de la Casa", "Amosa Gran Blend"],
+                "Familia Kretschmar": ["Chupasangre Cabernet Sauvignon", "Chupasangre Malbec", "Chupasangre Malbec Rose", "Chupasangre Gran Corte Blend", "Sanguinaria Malbec", "Sanguinaria Cabernet Franc", "4 Brotes Malbec"],
+                "Tiammat": ["N° 7", "N° 9", "N° 10", "N° 11", "N° 12", "N° 14"],
+                "Iaccarini": ["Via Blanca White Blend", "Via Blanca Malbec", "Via Blanca Bonarda", "Via Blanca Cabernet Sauvignon", "Via Blanca Red Blend", "Via Blanca Terroir Selection Malbec", "Via Blanca Terroir Selection Cabernet Sauvignon", "Via Blanca Terroir Selection Blend de Tintas", "Cavas Don Nicasio Assemblage I BN - SY", "Cavas Don Nicasio Assemblage II MB - MB", "Cavas Don Nicasio Assemblage III CS - MB - PV", "Cavas Don Nicasio Single Vineyard Malbec"],
+                "Che Bandoneon": ["Che bandoneon Cab. Franc", "Che Bandoneon Malbec", "Che Bandoneon Cab. Sauvignon", "Che Bandoneon Reserva Malbec"],
+                "Aicardi": ["Serie Terroir Pinot Noir Contraflor", "Serie Terroir Malbec Contraflor", "Parcela Única Reserva Malbec", "Parcela Única Reserva Cab. Sauvignon", "Parcela Única Reserva Merlot", "Parcela Única Reserva Pinot Noir", "Parcela Única Reserva Cab. Franc", "Barrel Fermented Cab. Franc", "Barrel Fermented Red Blend Malbec/Cab. Sauv.", "Barrel Fermented Cab. Franc Cab. Franc/Merlot"],
+                "Schiavi": ["Último Hombre Chenin"]
+            };
 
             // Establece la fecha de hoy por defecto
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('fecha').value = today;
 
-            // Maneja el envío del formulario
-            form.addEventListener('submit', (event) => {
-                event.preventDefault(); // Previene el envío por defecto del formulario
+            // Función para actualizar las opciones de referencia
+            function updateReferences(winerySelect, referenceSelect) {
+                const selectedWinery = winerySelect.value;
+                const references = winesByWinery[selectedWinery] || [];
+                
+                // Limpiar las opciones existentes
+                referenceSelect.innerHTML = '<option value="" disabled selected>Selecciona una referencia</option>';
+
+                // Agregar las nuevas opciones
+                references.forEach(ref => {
+                    const option = document.createElement('option');
+                    option.value = ref;
+                    option.textContent = ref;
+                    referenceSelect.appendChild(option);
+                });
+            }
+
+            // Asignar el listener de evento a cada select de bodega
+            winerySelects.forEach((winerySelect, index) => {
+                winerySelect.addEventListener('change', () => {
+                    updateReferences(winerySelect, referenceSelects[index]);
+                });
+            });
+
+            // Maneja el clic del botón de WhatsApp
+            submitWhatsappButton.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                // Validar que al menos una referencia haya sido seleccionada
+                let hasProduct = false;
+                for (let i = 0; i < referenceSelects.length; i++) {
+                    if (referenceSelects[i].value && document.querySelector(`input[name="cantidad_${i+1}"]`).value) {
+                        hasProduct = true;
+                        break;
+                    }
+                }
+
+                if (!form.reportValidity() || !hasProduct) {
+                    alert('Por favor, completa todos los campos obligatorios y selecciona al menos un producto con su cantidad.');
+                    return;
+                }
 
                 const formData = new FormData(form);
                 const order = {};
                 const productos = [];
 
-                // Recorre los datos del formulario y los organiza
                 order.vendedora = formData.get('vendedora');
                 order.fecha = formData.get('fecha');
                 order.cliente = formData.get('cliente');
@@ -216,32 +340,33 @@
                 order.situacion_fiscal = formData.get('situacion_fiscal');
                 order.observaciones = formData.get('observaciones');
                 
-                // Recorre los 8 campos de referencia y cantidad
+                // Recorre los campos de bodega, referencia y cantidad
                 for (let i = 1; i <= 8; i++) {
+                    const bodega = formData.get(`bodega_${i}`);
                     const ref = formData.get(`referencia_${i}`);
                     const qty = formData.get(`cantidad_${i}`);
-                    if (ref && qty && ref.trim() !== '') {
-                        productos.push({ referencia: ref, cantidad: qty });
+                    // Solo añade los productos con referencia y cantidad
+                    if (bodega && ref && qty && ref.trim() !== '') {
+                        productos.push({ bodega: bodega, referencia: ref, cantidad: qty });
                     }
                 }
                 order.productos = productos;
 
-                // Genera el texto del resumen del pedido
                 let summaryText = '--- Resumen del Pedido ---\n\n';
-                summaryText += `Vendedor/a: ${order.vendedora}\n`;
-                summaryText += `Pedido: ${order.fecha}\n`; // El label cambia en el resumen
-                summaryText += `Cliente: ${order.cliente}\n`;
+                summaryText += `Vendedor/a: ${order.vendedora || 'No especificado'}\n`;
+                summaryText += `Pedido: ${order.fecha || 'No especificado'}\n`;
+                summaryText += `Cliente: ${order.cliente || 'No especificado'}\n`;
                 if (order.razon_social) summaryText += `Razón Social: ${order.razon_social}\n`;
                 if (order.direccion_legal) summaryText += `Dirección Legal: ${order.direccion_legal}\n`;
-                summaryText += `Dirección de entrega, fecha y horario aproximado: ${order.direccion}\n`;
-                summaryText += `Localidad: ${order.localidad}\n`;
+                summaryText += `Dirección de entrega, fecha y horario aproximado: ${order.direccion || 'No especificado'}\n`;
+                summaryText += `Localidad: ${order.localidad || 'No especificado'}\n`;
                 if (order.provincia) summaryText += `Provincia: ${order.provincia}\n`;
                 if (order.cuit) summaryText += `CUIT: ${order.cuit}\n`;
                 if (order.situacion_fiscal) summaryText += `Situación Fiscal: ${order.situacion_fiscal}\n`;
                 summaryText += `\n--- Productos ---\n`;
                 if (order.productos.length > 0) {
                     order.productos.forEach(item => {
-                        summaryText += `${item.referencia}: ${item.cantidad} unidades\n`;
+                        summaryText += `${item.bodega} - ${item.referencia}: ${item.cantidad} unidades\n`;
                     });
                 } else {
                     summaryText += 'Ningún producto seleccionado.\n';
@@ -250,33 +375,10 @@
                 summaryText += order.observaciones || 'Ninguna.\n';
                 summaryText += `\n-----------------------\n`;
 
-                // Muestra el resumen en el modal
-                orderSummaryElement.textContent = summaryText;
-                summaryModal.classList.remove('hidden');
-            });
-
-            // Cierra el modal
-            closeButton.addEventListener('click', () => {
-                summaryModal.classList.add('hidden');
-            });
-
-            // Copia el resumen al portapapeles
-            copyButton.addEventListener('click', () => {
-                const summaryText = orderSummaryElement.textContent;
-                const textarea = document.createElement('textarea');
-                textarea.value = summaryText;
-                document.body.appendChild(textarea);
-                textarea.select();
-                try {
-                    document.execCommand('copy');
-                    copyButton.textContent = '¡Copiado!';
-                    setTimeout(() => {
-                        copyButton.textContent = 'Copiar al portapapeles';
-                    }, 2000);
-                } catch (err) {
-                    console.error('Error al copiar el texto', err);
-                }
-                document.body.removeChild(textarea);
+                // Abrir directamente en WhatsApp
+                const encodedText = encodeURIComponent(summaryText);
+                const whatsappUrl = `https://api.whatsapp.com/send?text=${encodedText}`;
+                window.open(whatsappUrl, '_blank');
             });
         });
     </script>
