@@ -9,6 +9,15 @@
     body {
       font-family: 'Inter', sans-serif;
     }
+    input[type="date"]::before {
+      content: attr(placeholder);
+      color: #9ca3af;
+      margin-right: 0.5em;
+    }
+    input[type="date"]:focus::before,
+    input[type="date"]:valid::before {
+      content: "";
+    }
   </style>
 </head>
 <body class="bg-gray-100 p-4">
@@ -30,10 +39,7 @@
       </select>
       <input id="direccion_legal" type="text" placeholder="Dirección Legal" class="border p-2 rounded w-full" />
       <input id="direccion_entrega" type="text" placeholder="Dirección de Entrega" class="border p-2 rounded w-full" />
-      <div>
-        <label for="fecha" class="font-bold block mb-1">Fecha de Entrega</label>
-        <input id="fecha" type="date" class="border p-2 rounded w-full" />
-      </div>
+      <input id="fecha" type="date" placeholder="Fecha de Entrega" class="border p-2 rounded w-full text-gray-600" />
     </div>
 
     <!-- Productos -->
@@ -52,13 +58,13 @@
       <textarea id="observaciones" placeholder="Escribí aquí detalles adicionales del pedido..." class="border p-2 rounded w-full" rows="4"></textarea>
     </div>
 
-    <!-- Vista previa -->
+    <!-- Vista previa del pedido -->
     <div>
       <label class="font-bold">Resumen para WhatsApp:</label>
       <textarea id="resumenPedido" class="border p-2 rounded w-full mt-2" rows="10" readonly></textarea>
     </div>
 
-    <!-- Botón WhatsApp -->
+    <!-- Botón enviar por WhatsApp -->
     <a id="btnWhatsapp" target="_blank" class="block bg-green-600 text-white text-center py-3 rounded font-bold">
       Enviar pedido por WhatsApp
     </a>
@@ -66,36 +72,13 @@
 
   <script>
     const bodegas = {
-      "A Corazon Abierto": [
-        "Malbec Etiqueta Negra",
-        "Cabernet Franc Etiqueta Negra",
-        "Cabernet Sauvignon Etiqueta Negra",
-        "Gran Malbec",
-        "Gran Corte"
-      ],
-      "Amosa": [
-        "Chardonnay",
-        "Rosé",
-        "Malbec de la Casa",
-        "Gran Blend"
-      ],
-      "Tiammat": [
-        "N° 7",
-        "N° 9",
-        "N° 10",
-        "N° 11",
-        "N° 12",
-        "N° 14"
-      ],
-      "Iaccarini": [
-        "Via Blanca White Blend",
-        "Via Blanca Malbec",
-        "Via Blanca Bonarda",
-        "Via Blanca Cabernet Sauvignon",
-        "Via Blanca Red Blend",
-        "Via Blanca Terroir Selection Malbec",
-        "Via Blanca Terroir Selection Cabernet Sauvignon"
-      ]
+      "A Corazon Abierto": ["Malbec Etiqueta Negra", "Cabernet Franc Etiqueta Negra", "Cabernet Sauvignon Etiqueta Negra", "Gran Malbec", "Gran Corte"],
+      "Amosa": ["Chardonnay", "Rosé", "Malbec de la Casa", "Gran Blend"],
+      "Tiammat": ["N° 7", "N° 9", "N° 10", "N° 11", "N° 12", "N° 14"],
+      "Iaccarini": ["Via Blanca White Blend", "Via Blanca Malbec", "Via Blanca Bonarda", "Via Blanca Cabernet Sauvignon", "Via Blanca Red Blend", "Via Blanca Terroir Selection Malbec", "Via Blanca Terroir Selection Cabernet Sauvignon", "Roble Malbec", "Roble Cabernet Sauvignon", "Roble Bonarda", "Roble Red Blend", "Reserva Malbec", "Reserva Cabernet Sauvignon"],
+      "Che Bandoneon": ["Malbec", "Cabernet Sauvignon", "Cabernet Franc", "Reserva Malbec"],
+      "Aicardi": ["Reserva Malbec", "Reserva Bonarda", "Reserva Cabernet Sauvignon", "Reserva Blend", "Gran Reserva Blend", "Gran Reserva Malbec", "Gran Reserva Bonarda", "Gran Reserva Cabernet Sauvignon", "Roble Malbec", "Roble Cabernet Sauvignon"],
+      "Schiavi": ["Reserva Blend", "Reserva Cabernet Sauvignon", "Gran Reserva Malbec", "Gran Reserva Blend", "Roble Malbec"]
     };
 
     function crearLinea() {
@@ -104,10 +87,10 @@
 
       const selectBodega = document.createElement('select');
       selectBodega.className = "border p-2 rounded";
-      selectBodega.innerHTML = `<option value="">Seleccione Bodega</option>` +
-        Object.keys(bodegas).map(b => `<option value="${b}">${b}</option>`).join('');
+      selectBodega.innerHTML = `<option value=\"\">Seleccione Bodega</option>` +
+        Object.keys(bodegas).map(b => `<option value=\"${b}\">${b}</option>`).join('');
       selectBodega.onchange = function () {
-        selectProducto.innerHTML = '<option value="">Seleccione Producto</option>';
+        selectProducto.innerHTML = '<option value=\"\">Seleccione Producto</option>';
         if (bodegas[selectBodega.value]) {
           bodegas[selectBodega.value].forEach(prod => {
             const option = document.createElement('option');
@@ -121,7 +104,7 @@
 
       const selectProducto = document.createElement('select');
       selectProducto.className = "border p-2 rounded";
-      selectProducto.innerHTML = '<option value="">Seleccione Producto</option>';
+      selectProducto.innerHTML = '<option value=\"\">Seleccione Producto</option>';
       selectProducto.onchange = generarResumen;
 
       const inputCantidad = document.createElement('input');
