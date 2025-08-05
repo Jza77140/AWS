@@ -1,136 +1,145 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Formulario de Pedido de Vinos</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        const productos = {
-            "A Corazon Abierto": ["Malbec Etiqueta Negra", "Cabernet Franc Etiqueta Negra", "Cabernet Sauvignon Etiqueta Negra", "Gran Malbec", "Gran Corte"],
-            "Amosa": ["Amosa Chardonnay", "Amosa Rose", "Amosa Malbec de la Casa", "Amosa Gran Blend"],
-            "Familia Kretschmar": ["Chupasangre Cabernet Sauvignon", "Chupasangre Malbec", "Chupasangre Malbec Rose", "Chupasangre Gran Corte Blend", "Sanguinaria Malbec", "Sanguinaria Cabernet Franc", "4 Brotes Malbec"],
-            "Tiammat": ["N° 7", "N° 9", "N° 10", "N° 11", "N° 12", "N° 14"],
-            "Iaccarini": ["Via Blanca White Blend", "Via Blanca Malbec", "Via Blanca Bonarda", "Via Blanca Cabernet Sauvignon", "Via Blanca Red Blend", "Via Blanca Terroir Selection Malbec", "Via Blanca Terroir Selection Cabernet Sauvignon", "Via Blanca Terroir Selection Blend de Tintas", "Cavas Don Nicasio Assemblage I BN - SY", "Cavas Don Nicasio Assemblage II MB - MB", "Cavas Don Nicasio Assemblage III CS - MB - PV", "Cavas Don Nicasio Single Vineyard Malbec"],
-            "Che Bandoneon": ["Che bandoneon Cab. Franc", "Che Bandoneon Malbec", "Che Bandoneon Cab. Sauvignon", "Che Bandoneon Reserva Malbec"],
-            "Aicardi": ["Serie Terroir Pinot Noir Contraflor", "Serie Terroir Malbec Contraflor", "Parcela Única Reserva Malbec", "Parcela Única Reserva Cab. Sauvignon", "Parcela Única Reserva Merlot", "Parcela Única Reserva Pinot Noir", "Parcela Única Reserva Cab. Franc", "Barrel Fermented Cab. Franc", "Barrel Fermented Red Blend Malbec/Cab. Sauv.", "Barrel Fermented Cab. Franc Cab. Franc/Merlot"],
-            "Schiavi": ["Último Hombre Chenin"]
-        };
-
-        function updatePresentaciones(index) {
-            const familia = document.getElementById("familia_" + index).value;
-            const presentacion = document.getElementById("presentacion_" + index);
-            presentacion.innerHTML = "";
-            if (productos[familia]) {
-                productos[familia].forEach(item => {
-                    const option = document.createElement("option");
-                    option.text = item;
-                    option.value = item;
-                    presentacion.add(option);
-                });
-            }
-        }
-
-        function agregarProducto() {
-            const index = document.querySelectorAll('.producto-row').length;
-            const container = document.getElementById("productosContainer");
-
-            const div = document.createElement("div");
-            div.classList.add("producto-row", "grid", "grid-cols-3", "gap-2", "mb-2");
-            div.innerHTML = `
-                <select id="familia_${index}" class="p-2 border rounded" onchange="updatePresentaciones(${index})">
-                    <option value="">Familia</option>
-                    ${Object.keys(productos).map(f => `<option value="${f}">${f}</option>`).join('')}
-                </select>
-                <select id="presentacion_${index}" class="p-2 border rounded">
-                    <option value="">Presentación</option>
-                </select>
-                <input type="number" id="cantidad_${index}" class="p-2 border rounded" placeholder="Cantidad">
-            `;
-            container.appendChild(div);
-        }
-
-        function generarResumen() {
-            const nombre = document.getElementById("nombre").value;
-            const direccion = document.getElementById("direccion").value;
-            const localidad = document.getElementById("localidad").value;
-            const telefono = document.getElementById("telefono").value;
-            const email = document.getElementById("email").value;
-            const entrega = document.getElementById("entrega").value;
-            const pago = document.getElementById("pago").value;
-            const observaciones = document.getElementById("observaciones").value;
-
-            let mensaje = `Pedido de vinos:%0ACliente: ${nombre}%0ADirección: ${direccion}, ${localidad}%0ATeléfono: ${telefono}%0AEmail: ${email}%0AEntrega: ${entrega}%0APago: ${pago}%0A%0AProductos:%0A`;
-
-            document.querySelectorAll('.producto-row').forEach((row, index) => {
-                const fam = document.getElementById("familia_" + index).value;
-                const pres = document.getElementById("presentacion_" + index).value;
-                const cant = document.getElementById("cantidad_" + index).value;
-                if (fam && pres && cant) {
-                    mensaje += `- ${fam} - ${pres} x ${cant}%0A`;
-                }
-            });
-
-            if (observaciones) {
-                mensaje += `%0AObservaciones: ${observaciones}`;
-            }
-
-            document.getElementById("preview").innerText = decodeURIComponent(mensaje.replace(/%0A/g, "\\n"));
-            document.getElementById("whatsappLink").href = `https://wa.me/?text=${mensaje}`;
-        }
-    </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Formulario de Pedido AWS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 p-6">
-    <div class="max-w-3xl mx-auto bg-white p-6 rounded-xl shadow space-y-4">
-        <h1 class="text-2xl font-bold text-center">Formulario de Pedido</h1>
+<body class="bg-gray-100 p-4">
+  <div class="max-w-5xl mx-auto bg-white shadow-lg rounded-xl p-6 space-y-6">
+    <h1 class="text-3xl font-bold text-center text-gray-800">Formulario de Pedido</h1>
 
-        <input id="nombre" type="text" placeholder="Nombre o Razón Social" class="w-full p-2 border rounded" required>
-        <input id="direccion" type="text" placeholder="Dirección de entrega" class="w-full p-2 border rounded" required>
-        <input id="localidad" type="text" placeholder="Localidad / Provincia" class="w-full p-2 border rounded" required>
-        <input id="telefono" type="text" placeholder="Teléfono" class="w-full p-2 border rounded">
-        <input id="email" type="email" placeholder="Email" class="w-full p-2 border rounded">
-
-        <select id="entrega" class="w-full p-2 border rounded">
-            <option value="">Tipo de entrega</option>
-            <option value="Retiro">Retiro</option>
-            <option value="Envío">Envío</option>
-            <option value="Otro">Otro</option>
-        </select>
-
-        <select id="pago" class="w-full p-2 border rounded">
-            <option value="">Condición de pago</option>
-            <option value="Contado">Contado</option>
-            <option value="Transferencia">Transferencia</option>
-            <option value="Otro">Otro</option>
-        </select>
-
-        <textarea id="observaciones" rows="3" placeholder="Observaciones" class="w-full p-2 border rounded"></textarea>
-
-        <div id="productosContainer" class="space-y-2">
-            <!-- productos dinámicos aquí -->
-        </div>
-        <button onclick="agregarProducto()" class="bg-blue-500 text-white px-4 py-2 rounded">+ Agregar producto</button>
-
-        <button onclick="generarResumen()" class="bg-yellow-500 text-white px-4 py-2 rounded w-full">🔍 Vista previa</button>
-
-        <pre id="preview" class="bg-gray-200 p-4 rounded text-sm whitespace-pre-wrap"></pre>
-
-        <a id="whatsappLink" target="_blank" class="block text-center bg-green-600 text-white p-3 rounded hover:bg-green-700 transition">📤 Enviar por WhatsApp</a>
+    <!-- Datos del Cliente -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <input type="text" placeholder="Nombre del Cliente" class="border p-2 rounded w-full" />
+      <input type="text" placeholder="Razón Social" class="border p-2 rounded w-full" />
+      <input type="text" placeholder="CUIT" class="border p-2 rounded w-full" />
+      <select class="border p-2 rounded w-full">
+        <option value="">Situación Fiscal</option>
+        <option value="Responsable Inscripto">Responsable Inscripto</option>
+        <option value="Monotributista">Monotributista</option>
+        <option value="Exento">Exento</option>
+        <option value="No Responsable">No Responsable</option>
+        <option value="Consumidor Final">Consumidor Final</option>
+      </select>
+      <input type="text" placeholder="Dirección Legal" class="border p-2 rounded w-full" />
+      <input type="text" placeholder="Dirección de Entrega" class="border p-2 rounded w-full" />
+      <input type="text" placeholder="Lugar de Entrega" class="border p-2 rounded w-full" />
+      <input type="date" class="border p-2 rounded w-full" />
     </div>
 
-    <script>
-        // Cargar uno por defecto
-        window.onload = agregarProducto;
-    </script>
+    <!-- Productos -->
+    <div id="productos" class="space-y-4">
+      <!-- Se generarán 5 líneas por defecto -->
+    </div>
+
+    <button type="button" onclick="agregarLinea()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+      + Agregar producto
+    </button>
+
+    <!-- Condiciones de pago -->
+    <input type="text" placeholder="Condición de Pago" class="border p-2 rounded w-full" />
+
+    <!-- Vista previa del pedido -->
+    <div>
+      <label class="font-bold">Resumen para WhatsApp:</label>
+      <textarea id="resumenPedido" class="border p-2 rounded w-full mt-2" rows="8" readonly></textarea>
+    </div>
+
+    <!-- Botón enviar por WhatsApp -->
+    <a id="btnWhatsapp" target="_blank" class="block bg-green-600 text-white text-center py-3 rounded font-bold">
+      Enviar pedido por WhatsApp
+    </a>
+  </div>
+
+  <script>
+    const bodegas = {
+      "A Corazón Abierto": ["Malbec", "Cabernet Sauvignon", "Blend"],
+      "Amosa": ["Malbec", "Syrah", "Bonarda"],
+      "Familia Kretschmar": ["Gran Reserva Malbec", "Reserva Cabernet"],
+      "Tiammat": ["Tannat", "Merlot"],
+      "Iaccarini": ["Torrontés", "Rosado"],
+      "Che Bandoneón": ["Malbec", "Cabernet Franc", "Reserva Malbec"],
+      "Aicardi": ["Pinot Noir", "Chardonnay"],
+      "Schiavi": ["Bonarda", "Pet Nat"]
+    };
+
+    function crearLinea(index) {
+      const div = document.createElement('div');
+      div.className = "grid grid-cols-1 md:grid-cols-3 gap-2";
+
+      // Selector de Bodega
+      const selectBodega = document.createElement('select');
+      selectBodega.className = "border p-2 rounded";
+      selectBodega.innerHTML = `<option value="">Seleccione Bodega</option>` +
+        Object.keys(bodegas).map(b => `<option value="${b}">${b}</option>`).join('');
+      selectBodega.onchange = function () {
+        selectProducto.innerHTML = '<option value="">Seleccione Producto</option>';
+        if (bodegas[selectBodega.value]) {
+          bodegas[selectBodega.value].forEach(prod => {
+            const option = document.createElement('option');
+            option.value = prod;
+            option.textContent = prod;
+            selectProducto.appendChild(option);
+          });
+        }
+        generarResumen();
+      };
+
+      // Selector de Producto
+      const selectProducto = document.createElement('select');
+      selectProducto.className = "border p-2 rounded";
+      selectProducto.innerHTML = '<option value="">Seleccione Producto</option>';
+      selectProducto.onchange = generarResumen;
+
+      // Input cantidad
+      const inputCantidad = document.createElement('input');
+      inputCantidad.type = "number";
+      inputCantidad.min = "1";
+      inputCantidad.placeholder = "Cantidad";
+      inputCantidad.className = "border p-2 rounded";
+      inputCantidad.oninput = generarResumen;
+
+      div.appendChild(selectBodega);
+      div.appendChild(selectProducto);
+      div.appendChild(inputCantidad);
+
+      return div;
+    }
+
+    function agregarLinea() {
+      const container = document.getElementById('productos');
+      container.appendChild(crearLinea(container.children.length));
+    }
+
+    function generarResumen() {
+      const productosDiv = document.getElementById('productos');
+      const lineas = productosDiv.querySelectorAll('.grid');
+      let resumen = '';
+
+      lineas.forEach((linea, index) => {
+        const [bodega, producto, cantidad] = linea.querySelectorAll('select, input');
+        if (bodega.value && producto.value && cantidad.value) {
+          resumen += `Producto ${index + 1}:\nBodega: ${bodega.value}\nProducto: ${producto.value}\nCantidad: ${cantidad.value}\n\n`;
+        }
+      });
+
+      document.getElementById('resumenPedido').value = resumen.trim();
+      document.getElementById('btnWhatsapp').href = "https://wa.me/?text=" + encodeURIComponent(resumen.trim());
+    }
+
+    // Inicializar con 5 líneas
+    for (let i = 0; i < 5; i++) agregarLinea();
+  </script>
 </body>
 </html>
-"""
 
-# Guardar archivo
-html_path = "/mnt/data/formulario_pedido_completo.html"
-with open(html_path, "w", encoding="utf-8") as f:
-    f.write(full_html_content)
-
-html_path
 
 
 
