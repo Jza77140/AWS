@@ -9,15 +9,6 @@
     body {
       font-family: 'Inter', sans-serif;
     }
-    input[type="date"]::before {
-      content: attr(placeholder);
-      color: #9ca3af;
-      margin-right: 0.5em;
-    }
-    input[type="date"]:focus::before,
-    input[type="date"]:valid::before {
-      content: "";
-    }
   </style>
 </head>
 <body class="bg-gray-100 p-4">
@@ -39,7 +30,7 @@
       </select>
       <input id="direccion_legal" type="text" placeholder="Dirección Legal" class="border p-2 rounded w-full" />
       <input id="direccion_entrega" type="text" placeholder="Dirección de Entrega" class="border p-2 rounded w-full" />
-      <input id="fecha" type="date" placeholder="Fecha de Entrega" class="border p-2 rounded w-full text-gray-600" />
+      <input id="fecha" type="date" class="border p-2 rounded w-full" placeholder="Fecha de Entrega"/>
     </div>
 
     <!-- Productos -->
@@ -72,13 +63,66 @@
 
   <script>
     const bodegas = {
-      "A Corazon Abierto": ["Malbec Etiqueta Negra", "Cabernet Franc Etiqueta Negra", "Cabernet Sauvignon Etiqueta Negra", "Gran Malbec", "Gran Corte"],
-      "Amosa": ["Chardonnay", "Rosé", "Malbec de la Casa", "Gran Blend"],
-      "Tiammat": ["N° 7", "N° 9", "N° 10", "N° 11", "N° 12", "N° 14"],
-      "Iaccarini": ["Via Blanca White Blend", "Via Blanca Malbec", "Via Blanca Bonarda", "Via Blanca Cabernet Sauvignon", "Via Blanca Red Blend", "Via Blanca Terroir Selection Malbec", "Via Blanca Terroir Selection Cabernet Sauvignon", "Roble Malbec", "Roble Cabernet Sauvignon", "Roble Bonarda", "Roble Red Blend", "Reserva Malbec", "Reserva Cabernet Sauvignon"],
-      "Che Bandoneon": ["Malbec", "Cabernet Sauvignon", "Cabernet Franc", "Reserva Malbec"],
-      "Aicardi": ["Reserva Malbec", "Reserva Bonarda", "Reserva Cabernet Sauvignon", "Reserva Blend", "Gran Reserva Blend", "Gran Reserva Malbec", "Gran Reserva Bonarda", "Gran Reserva Cabernet Sauvignon", "Roble Malbec", "Roble Cabernet Sauvignon"],
-      "Schiavi": ["Reserva Blend", "Reserva Cabernet Sauvignon", "Gran Reserva Malbec", "Gran Reserva Blend", "Roble Malbec"]
+      "A Corazon Abierto": [
+        "Malbec Etiqueta Negra",
+        "Cabernet Franc Etiqueta Negra",
+        "Cabernet Sauvignon Etiqueta Negra",
+        "Gran Malbec",
+        "Gran Corte"
+      ],
+      "Amosa": [
+        "Chardonnay",
+        "Rosé",
+        "Malbec de la Casa",
+        "Gran Blend"
+      ],
+      "Tiammat": [
+        "N° 7",
+        "N° 9",
+        "N° 10",
+        "N° 11",
+        "N° 12",
+        "N° 14"
+      ],
+      "Iaccarini": [
+        "Via Blanca White Blend",
+        "Via Blanca Malbec",
+        "Via Blanca Bonarda",
+        "Via Blanca Cabernet Sauvignon",
+        "Via Blanca Red Blend",
+        "Terroir Selection Malbec",
+        "Terroir Selection Cabernet Sauvignon",
+        "Malbec de Autor",
+        "MALBEC PREMIUM",
+        "MALBEC VASIJAS",
+        "Corte de Familia",
+        "MALBEC 100 AÑOS"
+      ],
+      "Che Bandoneon": [
+        "Malbec Clásico",
+        "Cabernet Sauvignon",
+        "Cabernet Franc",
+        "Malbec Reserva"
+      ],
+      "Aicardi": [
+        "Cabernet Sauvignon Aicardi",
+        "Malbec Aicardi",
+        "Syrah Aicardi",
+        "Merlot Aicardi",
+        "Blend Aicardi",
+        "Reserva Cabernet Sauvignon",
+        "Reserva Malbec",
+        "Reserva Blend",
+        "Reserva Chardonnay",
+        "Reserva Rosé"
+      ],
+      "Schiavi": [
+        "Malbec",
+        "Cabernet Sauvignon",
+        "Merlot",
+        "Malbec Reserva",
+        "Blend Reserva"
+      ]
     };
 
     function crearLinea() {
@@ -87,10 +131,10 @@
 
       const selectBodega = document.createElement('select');
       selectBodega.className = "border p-2 rounded";
-      selectBodega.innerHTML = `<option value=\"\">Seleccione Bodega</option>` +
-        Object.keys(bodegas).map(b => `<option value=\"${b}\">${b}</option>`).join('');
+      selectBodega.innerHTML = `<option value="">Seleccione Bodega</option>` +
+        Object.keys(bodegas).map(b => `<option value="${b}">${b}</option>`).join('');
       selectBodega.onchange = function () {
-        selectProducto.innerHTML = '<option value=\"\">Seleccione Producto</option>';
+        selectProducto.innerHTML = '<option value="">Seleccione Producto</option>';
         if (bodegas[selectBodega.value]) {
           bodegas[selectBodega.value].forEach(prod => {
             const option = document.createElement('option');
@@ -104,7 +148,7 @@
 
       const selectProducto = document.createElement('select');
       selectProducto.className = "border p-2 rounded";
-      selectProducto.innerHTML = '<option value=\"\">Seleccione Producto</option>';
+      selectProducto.innerHTML = '<option value="">Seleccione Producto</option>';
       selectProducto.onchange = generarResumen;
 
       const inputCantidad = document.createElement('input');
