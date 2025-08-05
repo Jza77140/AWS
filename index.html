@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -35,9 +35,7 @@
     </div>
 
     <!-- Productos -->
-    <div id="productos" class="space-y-4">
-      <!-- Se generarán 5 líneas por defecto -->
-    </div>
+    <div id="productos" class="space-y-4"></div>
 
     <button type="button" onclick="agregarLinea()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
       + Agregar producto
@@ -60,21 +58,50 @@
 
   <script>
     const bodegas = {
-      "A Corazón Abierto": ["Malbec", "Cabernet Sauvignon", "Blend"],
-      "Amosa": ["Malbec", "Syrah", "Bonarda"],
-      "Familia Kretschmar": ["Gran Reserva Malbec", "Reserva Cabernet"],
-      "Tiammat": ["Tannat", "Merlot"],
-      "Iaccarini": ["Torrontés", "Rosado"],
-      "Che Bandoneón": ["Malbec", "Cabernet Franc", "Reserva Malbec"],
-      "Aicardi": ["Pinot Noir", "Chardonnay"],
-      "Schiavi": ["Bonarda", "Pet Nat"]
+      "Che Bandoneón": [
+        "Malbec",
+        "Cabernet Sauvignon",
+        "Cabernet Franc",
+        "Reserva Malbec"
+      ],
+      "A Corazón Abierto": [
+        "Malbec",
+        "Blend Malbec-Cabernet",
+        "Rosado de Malbec"
+      ],
+      "Amosa": [
+        "Malbec",
+        "Blend de Malbec-Bonarda",
+        "Pet Nat"
+      ],
+      "Familia Kretschmar": [
+        "Gran Reserva Malbec",
+        "Reserva Cabernet Sauvignon"
+      ],
+      "Tiammat": [
+        "Gran Corte Malbec-Cabernet-Syrah",
+        "Tannat"
+      ],
+      "Iaccarini": [
+        "Malbec Roble",
+        "Cabernet Sauvignon Roble",
+        "Torrontés",
+        "Rosado de Malbec"
+      ],
+      "Aicardi": [
+        "Pinot Noir",
+        "Chardonnay"
+      ],
+      "Schiavi": [
+        "Bonarda",
+        "Pet Nat Blanco"
+      ]
     };
 
     function crearLinea(index) {
       const div = document.createElement('div');
       div.className = "grid grid-cols-1 md:grid-cols-3 gap-2";
 
-      // Selector de Bodega
       const selectBodega = document.createElement('select');
       selectBodega.className = "border p-2 rounded";
       selectBodega.innerHTML = `<option value="">Seleccione Bodega</option>` +
@@ -92,13 +119,11 @@
         generarResumen();
       };
 
-      // Selector de Producto
       const selectProducto = document.createElement('select');
       selectProducto.className = "border p-2 rounded";
       selectProducto.innerHTML = '<option value="">Seleccione Producto</option>';
       selectProducto.onchange = generarResumen;
 
-      // Input cantidad
       const inputCantidad = document.createElement('input');
       inputCantidad.type = "number";
       inputCantidad.min = "1";
@@ -139,6 +164,7 @@
   </script>
 </body>
 </html>
+
 
 
 
