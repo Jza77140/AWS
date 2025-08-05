@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Pedido de Vinos</title>
+    <!-- Incluir Tailwind CSS para un diseño moderno y responsive -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f7f7;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <div class="bg-white shadow-xl rounded-lg p-6 md:p-10 border border-gray-200">
+            <!-- El título del formulario ha sido reincorporado según lo solicitado -->
+            <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-6">Formulario de Pedido AWS</h1>
+            
+            <!-- Se ha reducido el espacio entre las secciones de `space-y-6` a `space-y-4` para un diseño más compacto. -->
+            <form id="orderForm" class="space-y-4">
+
+                <!-- Sección: Datos de la vendedora -->
+                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                    <h2 class="text-2xl font-semibold text-gray-700 mb-4">Datos de la Vendedora</h2>
+                    <!-- Se ha reducido el espacio entre los campos de `gap-6` a `gap-4` -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="vendedora" class="block text-sm font-medium text-gray-700 mb-1">Vendedor/a</label>
+                            <select id="vendedora" name="vendedora" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                                <option value="" disabled selected>Selecciona vendedor/a</option>
+                                <option value="Vicky">Vicky</option>
+                                <option value="Marita">Marita</option>
+                            </select>
+                        </div>
+                        <div>
+                            <!-- La etiqueta ha sido cambiada de "Fecha del pedido" a "Pedido" -->
+                            <label for="fecha" class="block text-sm font-medium text-gray-700 mb-1">Pedido</label>
+                            <input type="date" id="fecha" name="fecha" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección: Datos del cliente -->
+                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                    <h2 class="text-2xl font-semibold text-gray-700 mb-4">Datos del Cliente</h2>
+                    <!-- Se ha reducido el espacio entre los campos de `gap-6` a `gap-4` y el espacio vertical de `space-y-4` a `space-y-2` -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 space-y-2 md:space-y-0">
+                        <div>
+                            <label for="cliente" class="block text-sm font-medium text-gray-700 mb-1">Nombre del cliente</label>
+                            <input type="text" id="cliente" name="cliente" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                        </div>
+                        <div>
+                            <label for="razon_social" class="block text-sm font-medium text-gray-700 mb-1">Razón Social</label>
+                            <input type="text" id="razon_social" name="razon_social" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        </div>
+                        <!-- Nuevo campo para Dirección Legal -->
+                        <div>
+                            <label for="direccion_legal" class="block text-sm font-medium text-gray-700 mb-1">Dirección Legal</label>
+                            <input type="text" id="direccion_legal" name="direccion_legal" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        </div>
+                        <!-- Campo modificado para Dirección de entrega, sin que ocupe el ancho completo -->
+                        <div>
+                            <label for="direccion" class="block text-sm font-medium text-gray-700 mb-1">Dirección de entrega, fecha y horario aproximado</label>
+                            <textarea id="direccion" name="direccion" rows="3" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required></textarea>
+                        </div>
+                        <div>
+                            <label for="localidad" class="block text-sm font-medium text-gray-700 mb-1">Localidad</label>
+                            <input type="text" id="localidad" name="localidad" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                        </div>
+                        <div>
+                            <label for="provincia" class="block text-sm font-medium text-gray-700 mb-1">Provincia</label>
+                            <input type="text" id="provincia" name="provincia" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        </div>
+                        <div>
+                            <label for="cuit" class="block text-sm font-medium text-gray-700 mb-1">CUIT</label>
+                            <input type="text" id="cuit" name="cuit" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        </div>
+                        <div>
+                            <label for="situacion_fiscal" class="block text-sm font-medium text-gray-700 mb-1">Situación Fiscal</label>
+                            <select id="situacion_fiscal" name="situacion_fiscal" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <option value="" disabled selected>Selecciona una opción</option>
+                                <option value="Consumidor Final">Consumidor Final</option>
+                                <option value="Responsable Inscripto">Responsable Inscripto</option>
+                                <option value="Monotributista">Monotributista</option>
+                                <option value="Exento">Exento</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección: Referencias de productos (con 8 campos libres) -->
+                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                    <h2 class="text-2xl font-semibold text-gray-700 mb-4">Referencias</h2>
+                    <!-- Se ha reducido el espacio entre las columnas de `gap-4` a `gap-3` -->
+                    <div class="grid grid-cols-12 gap-3 items-end">
+                        <label class="col-span-10 block text-sm font-medium text-gray-700">Referencias</label>
+                        <label class="col-span-2 block text-sm font-medium text-gray-700 text-center">Cantidad</label>
+                    </div>
+                    <!-- Generar 8 pares de campos de referencia y cantidad -->
+                    <!-- Se ha ajustado el margen superior de `mt-2` a `mt-1` para un espacio más uniforme. -->
+                    <!-- Campo 1 -->
+                    <div class="grid grid-cols-12 gap-3 items-center mt-1">
+                        <input type="text" name="referencia_1" class="ref-input col-span-10 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <input type="number" name="cantidad_1" min="1" class="qty-input col-span-2 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-center">
+                    </div>
+                    <!-- Campo 2 -->
+                    <div class="grid grid-cols-12 gap-3 items-center mt-1">
+                        <input type="text" name="referencia_2" class="ref-input col-span-10 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <input type="number" name="cantidad_2" min="1" class="qty-input col-span-2 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-center">
+                    </div>
+                    <!-- Campo 3 -->
+                    <div class="grid grid-cols-12 gap-3 items-center mt-1">
+                        <input type="text" name="referencia_3" class="ref-input col-span-10 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <input type="number" name="cantidad_3" min="1" class="qty-input col-span-2 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-center">
+                    </div>
+                    <!-- Campo 4 -->
+                    <div class="grid grid-cols-12 gap-3 items-center mt-1">
+                        <input type="text" name="referencia_4" class="ref-input col-span-10 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <input type="number" name="cantidad_4" min="1" class="qty-input col-span-2 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-center">
+                    </div>
+                    <!-- Campo 5 -->
+                    <div class="grid grid-cols-12 gap-3 items-center mt-1">
+                        <input type="text" name="referencia_5" class="ref-input col-span-10 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <input type="number" name="cantidad_5" min="1" class="qty-input col-span-2 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-center">
+                    </div>
+                    <!-- Campo 6 -->
+                    <div class="grid grid-cols-12 gap-3 items-center mt-1">
+                        <input type="text" name="referencia_6" class="ref-input col-span-10 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <input type="number" name="cantidad_6" min="1" class="qty-input col-span-2 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-center">
+                    </div>
+                    <!-- Campo 7 -->
+                    <div class="grid grid-cols-12 gap-3 items-center mt-1">
+                        <input type="text" name="referencia_7" class="ref-input col-span-10 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <input type="number" name="cantidad_7" min="1" class="qty-input col-span-2 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-center">
+                    </div>
+                    <!-- Campo 8 -->
+                    <div class="grid grid-cols-12 gap-3 items-center mt-1">
+                        <input type="text" name="referencia_8" class="ref-input col-span-10 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <input type="number" name="cantidad_8" min="1" class="qty-input col-span-2 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-center">
+                    </div>
+                </div>
+
+                <!-- Sección: Observaciones -->
+                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                    <h2 class="text-2xl font-semibold text-gray-700 mb-4">Observaciones</h2>
+                    <div>
+                        <label for="observaciones" class="block text-sm font-medium text-gray-700 mb-1">Observaciones adicionales</label>
+                        <textarea id="observaciones" name="observaciones" rows="4" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
+                    </div>
+                </div>
+
+                <!-- Botón de enviar -->
+                <div class="text-center pt-4">
+                    <button type="submit" class="w-full md:w-auto inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                        Enviar Pedido
+                    </button>
+                </div>
+            </form>
+
+            <!-- Modal para el resumen del pedido -->
+            <div id="summaryModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+                <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-2/3 lg:w-1/2 shadow-lg rounded-md bg-white">
+                    <div class="mt-3 text-center">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900">Resumen del Pedido</h3>
+                        <div class="mt-2 px-7 py-3 max-h-96 overflow-y-auto text-left">
+                            <pre id="orderSummary" class="text-sm text-gray-700 whitespace-pre-wrap"></pre>
+                        </div>
+                        <div class="items-center px-4 py-3">
+                            <button id="copyButton" class="px-4 py-2 bg-green-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300 transition-colors duration-200">
+                                Copiar al portapapeles
+                            </button>
+                            <button id="closeButton" class="mt-3 px-4 py-2 bg-red-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 transition-colors duration-200">
+                                Cerrar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('orderForm');
+            const summaryModal = document.getElementById('summaryModal');
+            const orderSummaryElement = document.getElementById('orderSummary');
+            const closeButton = document.getElementById('closeButton');
+            const copyButton = document.getElementById('copyButton');
+
+            // Establece la fecha de hoy por defecto
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('fecha').value = today;
+
+            // Maneja el envío del formulario
+            form.addEventListener('submit', (event) => {
+                event.preventDefault(); // Previene el envío por defecto del formulario
+
+                const formData = new FormData(form);
+                const order = {};
+                const productos = [];
+
+                // Recorre los datos del formulario y los organiza
+                order.vendedora = formData.get('vendedora');
+                order.fecha = formData.get('fecha');
+                order.cliente = formData.get('cliente');
+                order.razon_social = formData.get('razon_social');
+                order.direccion_legal = formData.get('direccion_legal');
+                order.direccion = formData.get('direccion');
+                order.localidad = formData.get('localidad');
+                order.provincia = formData.get('provincia');
+                order.cuit = formData.get('cuit');
+                order.situacion_fiscal = formData.get('situacion_fiscal');
+                order.observaciones = formData.get('observaciones');
+                
+                // Recorre los 8 campos de referencia y cantidad
+                for (let i = 1; i <= 8; i++) {
+                    const ref = formData.get(`referencia_${i}`);
+                    const qty = formData.get(`cantidad_${i}`);
+                    if (ref && qty && ref.trim() !== '') {
+                        productos.push({ referencia: ref, cantidad: qty });
+                    }
+                }
+                order.productos = productos;
+
+                // Genera el texto del resumen del pedido
+                let summaryText = '--- Resumen del Pedido ---\n\n';
+                summaryText += `Vendedor/a: ${order.vendedora}\n`;
+                summaryText += `Pedido: ${order.fecha}\n`; // El label cambia en el resumen
+                summaryText += `Cliente: ${order.cliente}\n`;
+                if (order.razon_social) summaryText += `Razón Social: ${order.razon_social}\n`;
+                if (order.direccion_legal) summaryText += `Dirección Legal: ${order.direccion_legal}\n`;
+                summaryText += `Dirección de entrega, fecha y horario aproximado: ${order.direccion}\n`;
+                summaryText += `Localidad: ${order.localidad}\n`;
+                if (order.provincia) summaryText += `Provincia: ${order.provincia}\n`;
+                if (order.cuit) summaryText += `CUIT: ${order.cuit}\n`;
+                if (order.situacion_fiscal) summaryText += `Situación Fiscal: ${order.situacion_fiscal}\n`;
+                summaryText += `\n--- Productos ---\n`;
+                if (order.productos.length > 0) {
+                    order.productos.forEach(item => {
+                        summaryText += `${item.referencia}: ${item.cantidad} unidades\n`;
+                    });
+                } else {
+                    summaryText += 'Ningún producto seleccionado.\n';
+                }
+                summaryText += `\n--- Observaciones ---\n`;
+                summaryText += order.observaciones || 'Ninguna.\n';
+                summaryText += `\n-----------------------\n`;
+
+                // Muestra el resumen en el modal
+                orderSummaryElement.textContent = summaryText;
+                summaryModal.classList.remove('hidden');
+            });
+
+            // Cierra el modal
+            closeButton.addEventListener('click', () => {
+                summaryModal.classList.add('hidden');
+            });
+
+            // Copia el resumen al portapapeles
+            copyButton.addEventListener('click', () => {
+                const summaryText = orderSummaryElement.textContent;
+                const textarea = document.createElement('textarea');
+                textarea.value = summaryText;
+                document.body.appendChild(textarea);
+                textarea.select();
+                try {
+                    document.execCommand('copy');
+                    copyButton.textContent = '¡Copiado!';
+                    setTimeout(() => {
+                        copyButton.textContent = 'Copiar al portapapeles';
+                    }, 2000);
+                } catch (err) {
+                    console.error('Error al copiar el texto', err);
+                }
+                document.body.removeChild(textarea);
+            });
+        });
+    </script>
+</body>
+</html>
