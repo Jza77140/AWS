@@ -6,48 +6,56 @@
   <title>Formulario de Pedido AWS</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { font-family: 'Inter', sans-serif; }
+    body {
+      font-family: 'Inter', sans-serif;
+    }
   </style>
 </head>
 <body class="bg-gray-100 p-4">
   <div class="max-w-5xl mx-auto bg-white shadow-lg rounded-xl p-6 space-y-6">
     <h1 class="text-3xl font-bold text-center text-gray-800">Formulario de Pedido</h1>
 
+    <!-- Datos del Cliente -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <input id="nombre" type="text" placeholder="Nombre del Cliente" class="border p-2 rounded w-full" />
       <input id="razon" type="text" placeholder="Razón Social" class="border p-2 rounded w-full" />
       <input id="cuit" type="text" placeholder="CUIT" class="border p-2 rounded w-full" />
       <select id="fiscal" class="border p-2 rounded w-full">
         <option value="">Situación Fiscal</option>
-        <option>Responsable Inscripto</option>
-        <option>Monotributista</option>
-        <option>Exento</option>
-        <option>No Responsable</option>
-        <option>Consumidor Final</option>
+        <option value="Responsable Inscripto">Responsable Inscripto</option>
+        <option value="Monotributista">Monotributista</option>
+        <option value="Exento">Exento</option>
+        <option value="No Responsable">No Responsable</option>
+        <option value="Consumidor Final">Consumidor Final</option>
       </select>
       <input id="direccion_legal" type="text" placeholder="Dirección Legal" class="border p-2 rounded w-full" />
       <input id="direccion_entrega" type="text" placeholder="Dirección de Entrega" class="border p-2 rounded w-full" />
       <input id="fecha" type="date" class="border p-2 rounded w-full" />
     </div>
 
+    <!-- Productos -->
     <div id="productos" class="space-y-4"></div>
 
     <button type="button" onclick="agregarLinea()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
       + Agregar producto
     </button>
 
+    <!-- Condiciones de pago -->
     <input id="pago" type="text" placeholder="Condición de Pago" class="border p-2 rounded w-full" />
 
+    <!-- 🆕 Campo Observaciones -->
     <div>
       <label for="observaciones" class="font-bold block mb-1">Observaciones / Promos / Botellas</label>
       <textarea id="observaciones" placeholder="Escribí aquí detalles adicionales del pedido..." class="border p-2 rounded w-full" rows="4"></textarea>
     </div>
 
+    <!-- Vista previa del pedido -->
     <div>
       <label class="font-bold">Resumen para WhatsApp:</label>
       <textarea id="resumenPedido" class="border p-2 rounded w-full mt-2" rows="10" readonly></textarea>
     </div>
 
+    <!-- Botón enviar por WhatsApp -->
     <a id="btnWhatsapp" target="_blank" class="block bg-green-600 text-white text-center py-3 rounded font-bold">
       Enviar pedido por WhatsApp
     </a>
@@ -68,8 +76,22 @@
         "Malbec de la Casa",
         "Gran Blend"
       ],
+      "Familia Kretschmar": [
+        "Chupasangre Cabernet Sauvignon",
+        "Chupasangre Malbec",
+        "Chupasangre Malbec Rosé",
+        "Chupasangre Gran Corte Blend",
+        "Sanguinaria Malbec",
+        "Sanguinaria Cabernet Franc",
+        "4 Brotes Malbec"
+      ],
       "Tiammat": [
-        "N° 7", "N° 9", "N° 10", "N° 11", "N° 12", "N° 14"
+        "N° 7",
+        "N° 9",
+        "N° 10",
+        "N° 11",
+        "N° 12",
+        "N° 14"
       ],
       "Iaccarini": [
         "Via Blanca White Blend",
