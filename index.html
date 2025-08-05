@@ -30,7 +30,10 @@
       </select>
       <input id="direccion_legal" type="text" placeholder="Dirección Legal" class="border p-2 rounded w-full" />
       <input id="direccion_entrega" type="text" placeholder="Dirección de Entrega" class="border p-2 rounded w-full" />
-      <input id="fecha" type="date" class="border p-2 rounded w-full" />
+      <div>
+        <label for="fecha" class="font-bold block mb-1">Fecha de Entrega</label>
+        <input id="fecha" type="date" class="border p-2 rounded w-full" />
+      </div>
     </div>
 
     <!-- Productos -->
@@ -75,15 +78,6 @@
         "Rosé",
         "Malbec de la Casa",
         "Gran Blend"
-      ],
-      "Familia Kretschmar": [
-        "Chupasangre Cabernet Sauvignon",
-        "Chupasangre Malbec",
-        "Chupasangre Malbec Rosé",
-        "Chupasangre Gran Corte Blend",
-        "Sanguinaria Malbec",
-        "Sanguinaria Cabernet Franc",
-        "4 Brotes Malbec"
       ],
       "Tiammat": [
         "N° 7",
@@ -167,7 +161,7 @@
       resumen += `📄 *Situación Fiscal:* ${fiscal || '-'}\n`;
       resumen += `🏠 *Dirección Legal:* ${dirLegal || '-'}\n`;
       resumen += `📦 *Dirección de Entrega:* ${dirEntrega || '-'}\n`;
-      resumen += `📅 *Fecha:* ${fecha || '-'}\n`;
+      resumen += `📅 *Fecha de Entrega:* ${fecha || '-'}\n`;
       resumen += `💳 *Condición de Pago:* ${pago || '-'}\n\n`;
 
       const productosDiv = document.getElementById('productos');
