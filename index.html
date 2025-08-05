@@ -1,398 +1,138 @@
+# Generar HTML completo con múltiples productos, todos los campos y vista previa
+
+full_html_content = """
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario de Pedido de Vinos</title>
-    <!-- Incluir Tailwind CSS para un diseño moderno y responsive -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f7f7f7;
+    <script>
+        const productos = {
+            "A Corazon Abierto": ["Malbec Etiqueta Negra", "Cabernet Franc Etiqueta Negra", "Cabernet Sauvignon Etiqueta Negra", "Gran Malbec", "Gran Corte"],
+            "Amosa": ["Amosa Chardonnay", "Amosa Rose", "Amosa Malbec de la Casa", "Amosa Gran Blend"],
+            "Familia Kretschmar": ["Chupasangre Cabernet Sauvignon", "Chupasangre Malbec", "Chupasangre Malbec Rose", "Chupasangre Gran Corte Blend", "Sanguinaria Malbec", "Sanguinaria Cabernet Franc", "4 Brotes Malbec"],
+            "Tiammat": ["N° 7", "N° 9", "N° 10", "N° 11", "N° 12", "N° 14"],
+            "Iaccarini": ["Via Blanca White Blend", "Via Blanca Malbec", "Via Blanca Bonarda", "Via Blanca Cabernet Sauvignon", "Via Blanca Red Blend", "Via Blanca Terroir Selection Malbec", "Via Blanca Terroir Selection Cabernet Sauvignon", "Via Blanca Terroir Selection Blend de Tintas", "Cavas Don Nicasio Assemblage I BN - SY", "Cavas Don Nicasio Assemblage II MB - MB", "Cavas Don Nicasio Assemblage III CS - MB - PV", "Cavas Don Nicasio Single Vineyard Malbec"],
+            "Che Bandoneon": ["Che bandoneon Cab. Franc", "Che Bandoneon Malbec", "Che Bandoneon Cab. Sauvignon", "Che Bandoneon Reserva Malbec"],
+            "Aicardi": ["Serie Terroir Pinot Noir Contraflor", "Serie Terroir Malbec Contraflor", "Parcela Única Reserva Malbec", "Parcela Única Reserva Cab. Sauvignon", "Parcela Única Reserva Merlot", "Parcela Única Reserva Pinot Noir", "Parcela Única Reserva Cab. Franc", "Barrel Fermented Cab. Franc", "Barrel Fermented Red Blend Malbec/Cab. Sauv.", "Barrel Fermented Cab. Franc Cab. Franc/Merlot"],
+            "Schiavi": ["Último Hombre Chenin"]
+        };
+
+        function updatePresentaciones(index) {
+            const familia = document.getElementById("familia_" + index).value;
+            const presentacion = document.getElementById("presentacion_" + index);
+            presentacion.innerHTML = "";
+            if (productos[familia]) {
+                productos[familia].forEach(item => {
+                    const option = document.createElement("option");
+                    option.text = item;
+                    option.value = item;
+                    presentacion.add(option);
+                });
+            }
         }
-    </style>
+
+        function agregarProducto() {
+            const index = document.querySelectorAll('.producto-row').length;
+            const container = document.getElementById("productosContainer");
+
+            const div = document.createElement("div");
+            div.classList.add("producto-row", "grid", "grid-cols-3", "gap-2", "mb-2");
+            div.innerHTML = `
+                <select id="familia_${index}" class="p-2 border rounded" onchange="updatePresentaciones(${index})">
+                    <option value="">Familia</option>
+                    ${Object.keys(productos).map(f => `<option value="${f}">${f}</option>`).join('')}
+                </select>
+                <select id="presentacion_${index}" class="p-2 border rounded">
+                    <option value="">Presentación</option>
+                </select>
+                <input type="number" id="cantidad_${index}" class="p-2 border rounded" placeholder="Cantidad">
+            `;
+            container.appendChild(div);
+        }
+
+        function generarResumen() {
+            const nombre = document.getElementById("nombre").value;
+            const direccion = document.getElementById("direccion").value;
+            const localidad = document.getElementById("localidad").value;
+            const telefono = document.getElementById("telefono").value;
+            const email = document.getElementById("email").value;
+            const entrega = document.getElementById("entrega").value;
+            const pago = document.getElementById("pago").value;
+            const observaciones = document.getElementById("observaciones").value;
+
+            let mensaje = `Pedido de vinos:%0ACliente: ${nombre}%0ADirección: ${direccion}, ${localidad}%0ATeléfono: ${telefono}%0AEmail: ${email}%0AEntrega: ${entrega}%0APago: ${pago}%0A%0AProductos:%0A`;
+
+            document.querySelectorAll('.producto-row').forEach((row, index) => {
+                const fam = document.getElementById("familia_" + index).value;
+                const pres = document.getElementById("presentacion_" + index).value;
+                const cant = document.getElementById("cantidad_" + index).value;
+                if (fam && pres && cant) {
+                    mensaje += `- ${fam} - ${pres} x ${cant}%0A`;
+                }
+            });
+
+            if (observaciones) {
+                mensaje += `%0AObservaciones: ${observaciones}`;
+            }
+
+            document.getElementById("preview").innerText = decodeURIComponent(mensaje.replace(/%0A/g, "\\n"));
+            document.getElementById("whatsappLink").href = `https://wa.me/?text=${mensaje}`;
+        }
+    </script>
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-100 p-6">
+    <div class="max-w-3xl mx-auto bg-white p-6 rounded-xl shadow space-y-4">
+        <h1 class="text-2xl font-bold text-center">Formulario de Pedido</h1>
 
-    <div class="container mx-auto px-4 py-8 max-w-5xl">
-        <div class="bg-white shadow-xl rounded-lg p-6 md:p-10 border border-gray-200">
-            <!-- Título del formulario -->
-            <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-6">Formulario de Pedido AWS</h1>
-            
-            <form id="orderForm" class="space-y-4">
+        <input id="nombre" type="text" placeholder="Nombre o Razón Social" class="w-full p-2 border rounded" required>
+        <input id="direccion" type="text" placeholder="Dirección de entrega" class="w-full p-2 border rounded" required>
+        <input id="localidad" type="text" placeholder="Localidad / Provincia" class="w-full p-2 border rounded" required>
+        <input id="telefono" type="text" placeholder="Teléfono" class="w-full p-2 border rounded">
+        <input id="email" type="email" placeholder="Email" class="w-full p-2 border rounded">
 
-                <!-- Sección: Datos de la vendedora -->
-                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                    <h2 class="text-2xl font-semibold text-gray-700 mb-4">Datos de la Vendedora</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label for="vendedora" class="block text-sm font-medium text-gray-700 mb-1">Vendedor/a</label>
-                            <select id="vendedora" name="vendedora" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
-                                <option value="" disabled selected>Selecciona vendedor/a</option>
-                                <option value="Vicky">Vicky</option>
-                                <option value="Marita">Marita</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="fecha" class="block text-sm font-medium text-gray-700 mb-1">Pedido</label>
-                            <input type="date" id="fecha" name="fecha" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
-                        </div>
-                    </div>
-                </div>
+        <select id="entrega" class="w-full p-2 border rounded">
+            <option value="">Tipo de entrega</option>
+            <option value="Retiro">Retiro</option>
+            <option value="Envío">Envío</option>
+            <option value="Otro">Otro</option>
+        </select>
 
-                <!-- Sección: Datos del cliente -->
-                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                    <h2 class="text-2xl font-semibold text-gray-700 mb-4">Datos del Cliente</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 space-y-2 md:space-y-0">
-                        <div>
-                            <label for="cliente" class="block text-sm font-medium text-gray-700 mb-1">Nombre del cliente</label>
-                            <input type="text" id="cliente" name="cliente" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
-                        </div>
-                        <div>
-                            <label for="razon_social" class="block text-sm font-medium text-gray-700 mb-1">Razón Social</label>
-                            <input type="text" id="razon_social" name="razon_social" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                        </div>
-                        <div>
-                            <label for="direccion_legal" class="block text-sm font-medium text-gray-700 mb-1">Dirección Legal</label>
-                            <input type="text" id="direccion_legal" name="direccion_legal" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                        </div>
-                        <div>
-                            <label for="direccion" class="block text-sm font-medium text-gray-700 mb-1">Dirección de entrega, fecha y horario aproximado</label>
-                            <textarea id="direccion" name="direccion" rows="3" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required></textarea>
-                        </div>
-                        <div>
-                            <label for="localidad" class="block text-sm font-medium text-gray-700 mb-1">Localidad</label>
-                            <input type="text" id="localidad" name="localidad" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
-                        </div>
-                        <div>
-                            <label for="provincia" class="block text-sm font-medium text-gray-700 mb-1">Provincia</label>
-                            <input type="text" id="provincia" name="provincia" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                        </div>
-                        <div>
-                            <label for="cuit" class="block text-sm font-medium text-gray-700 mb-1">CUIT</label>
-                            <input type="text" id="cuit" name="cuit" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                        </div>
-                        <div>
-                            <label for="situacion_fiscal" class="block text-sm font-medium text-gray-700 mb-1">Situación Fiscal</label>
-                            <select id="situacion_fiscal" name="situacion_fiscal" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                <option value="" disabled selected>Selecciona una opción</option>
-                                <option value="Consumidor Final">Consumidor Final</option>
-                                <option value="Responsable Inscripto">Responsable Inscripto</option>
-                                <option value="Monotributista">Monotributista</option>
-                                <option value="Exento">Exento</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
+        <select id="pago" class="w-full p-2 border rounded">
+            <option value="">Condición de pago</option>
+            <option value="Contado">Contado</option>
+            <option value="Transferencia">Transferencia</option>
+            <option value="Otro">Otro</option>
+        </select>
 
-                <!-- Sección: Referencias de productos (con 8 campos desplegables) -->
-                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                    <h2 class="text-2xl font-semibold text-gray-700 mb-4">Referencias</h2>
-                    <div class="grid grid-cols-12 gap-3 items-end">
-                        <label class="col-span-4 block text-sm font-medium text-gray-700">Bodega</label>
-                        <label class="col-span-6 block text-sm font-medium text-gray-700">Referencia</label>
-                        <label class="col-span-2 block text-sm font-medium text-gray-700 text-center">Cantidad</label>
-                    </div>
-                    <!-- Fila 1 -->
-                    <div class="grid grid-cols-12 gap-3 items-center mt-1">
-                        <select name="bodega_1" class="winery-select col-span-4 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                            <option value="" disabled selected>Selecciona bodega</option>
-                            <option value="A Corazon Abierto">A Corazon Abierto</option>
-                            <option value="Amosa">Amosa</option>
-                            <option value="Familia Kretschmar">Familia Kretschmar</option>
-                            <option value="Tiammat">Tiammat</option>
-                            <option value="Iaccarini">Iaccarini</option>
-                            <option value="Che Bandoneon">Che Bandoneon</option>
-                            <option value="Aicardi">Aicardi</option>
-                            <option value="Schiavi">Schiavi</option>
-                        </select>
-                        <select name="referencia_1" class="reference-select col-span-6 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                            <option value="" disabled selected>Selecciona una referencia</option>
-                        </select>
-                        <input type="number" name="cantidad_1" min="1" class="qty-input col-span-2 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-center">
-                    </div>
-                    <!-- Fila 2 -->
-                    <div class="grid grid-cols-12 gap-3 items-center mt-1">
-                        <select name="bodega_2" class="winery-select col-span-4 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                            <option value="" disabled selected>Selecciona bodega</option>
-                            <option value="A Corazon Abierto">A Corazon Abierto</option>
-                            <option value="Amosa">Amosa</option>
-                            <option value="Familia Kretschmar">Familia Kretschmar</option>
-                            <option value="Tiammat">Tiammat</option>
-                            <option value="Iaccarini">Iaccarini</option>
-                            <option value="Che Bandoneon">Che Bandoneon</option>
-                            <option value="Aicardi">Aicardi</option>
-                            <option value="Schiavi">Schiavi</option>
-                        </select>
-                        <select name="referencia_2" class="reference-select col-span-6 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                            <option value="" disabled selected>Selecciona una referencia</option>
-                        </select>
-                        <input type="number" name="cantidad_2" min="1" class="qty-input col-span-2 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-center">
-                    </div>
-                    <!-- Fila 3 -->
-                    <div class="grid grid-cols-12 gap-3 items-center mt-1">
-                        <select name="bodega_3" class="winery-select col-span-4 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                            <option value="" disabled selected>Selecciona bodega</option>
-                            <option value="A Corazon Abierto">A Corazon Abierto</option>
-                            <option value="Amosa">Amosa</option>
-                            <option value="Familia Kretschmar">Familia Kretschmar</option>
-                            <option value="Tiammat">Tiammat</option>
-                            <option value="Iaccarini">Iaccarini</option>
-                            <option value="Che Bandoneon">Che Bandoneon</option>
-                            <option value="Aicardi">Aicardi</option>
-                            <option value="Schiavi">Schiavi</option>
-                        </select>
-                        <select name="referencia_3" class="reference-select col-span-6 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                            <option value="" disabled selected>Selecciona una referencia</option>
-                        </select>
-                        <input type="number" name="cantidad_3" min="1" class="qty-input col-span-2 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-center">
-                    </div>
-                    <!-- Fila 4 -->
-                    <div class="grid grid-cols-12 gap-3 items-center mt-1">
-                        <select name="bodega_4" class="winery-select col-span-4 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                            <option value="" disabled selected>Selecciona bodega</option>
-                            <option value="A Corazon Abierto">A Corazon Abierto</option>
-                            <option value="Amosa">Amosa</option>
-                            <option value="Familia Kretschmar">Familia Kretschmar</option>
-                            <option value="Tiammat">Tiammat</option>
-                            <option value="Iaccarini">Iaccarini</option>
-                            <option value="Che Bandoneon">Che Bandoneon</option>
-                            <option value="Aicardi">Aicardi</option>
-                            <option value="Schiavi">Schiavi</option>
-                        </select>
-                        <select name="referencia_4" class="reference-select col-span-6 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                            <option value="" disabled selected>Selecciona una referencia</option>
-                        </select>
-                        <input type="number" name="cantidad_4" min="1" class="qty-input col-span-2 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-center">
-                    </div>
-                    <!-- Fila 5 -->
-                    <div class="grid grid-cols-12 gap-3 items-center mt-1">
-                        <select name="bodega_5" class="winery-select col-span-4 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                            <option value="" disabled selected>Selecciona bodega</option>
-                            <option value="A Corazon Abierto">A Corazon Abierto</option>
-                            <option value="Amosa">Amosa</option>
-                            <option value="Familia Kretschmar">Familia Kretschmar</option>
-                            <option value="Tiammat">Tiammat</option>
-                            <option value="Iaccarini">Iaccarini</option>
-                            <option value="Che Bandoneon">Che Bandoneon</option>
-                            <option value="Aicardi">Aicardi</option>
-                            <option value="Schiavi">Schiavi</option>
-                        </select>
-                        <select name="referencia_5" class="reference-select col-span-6 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                            <option value="" disabled selected>Selecciona una referencia</option>
-                        </select>
-                        <input type="number" name="cantidad_5" min="1" class="qty-input col-span-2 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-center">
-                    </div>
-                    <!-- Fila 6 -->
-                    <div class="grid grid-cols-12 gap-3 items-center mt-1">
-                        <select name="bodega_6" class="winery-select col-span-4 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                            <option value="" disabled selected>Selecciona bodega</option>
-                            <option value="A Corazon Abierto">A Corazon Abierto</option>
-                            <option value="Amosa">Amosa</option>
-                            <option value="Familia Kretschmar">Familia Kretschmar</option>
-                            <option value="Tiammat">Tiammat</option>
-                            <option value="Iaccarini">Iaccarini</option>
-                            <option value="Che Bandoneon">Che Bandoneon</option>
-                            <option value="Aicardi">Aicardi</option>
-                            <option value="Schiavi">Schiavi</option>
-                        </select>
-                        <select name="referencia_6" class="reference-select col-span-6 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                            <option value="" disabled selected>Selecciona una referencia</option>
-                        </select>
-                        <input type="number" name="cantidad_6" min="1" class="qty-input col-span-2 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-center">
-                    </div>
-                    <!-- Fila 7 -->
-                    <div class="grid grid-cols-12 gap-3 items-center mt-1">
-                        <select name="bodega_7" class="winery-select col-span-4 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                            <option value="" disabled selected>Selecciona bodega</option>
-                            <option value="A Corazon Abierto">A Corazon Abierto</option>
-                            <option value="Amosa">Amosa</option>
-                            <option value="Familia Kretschmar">Familia Kretschmar</option>
-                            <option value="Tiammat">Tiammat</option>
-                            <option value="Iaccarini">Iaccarini</option>
-                            <option value="Che Bandoneon">Che Bandoneon</option>
-                            <option value="Aicardi">Aicardi</option>
-                            <option value="Schiavi">Schiavi</option>
-                        </select>
-                        <select name="referencia_7" class="reference-select col-span-6 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                            <option value="" disabled selected>Selecciona una referencia</option>
-                        </select>
-                        <input type="number" name="cantidad_7" min="1" class="qty-input col-span-2 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-center">
-                    </div>
-                    <!-- Fila 8 -->
-                    <div class="grid grid-cols-12 gap-3 items-center mt-1">
-                        <select name="bodega_8" class="winery-select col-span-4 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                            <option value="" disabled selected>Selecciona bodega</option>
-                            <option value="A Corazon Abierto">A Corazon Abierto</option>
-                            <option value="Amosa">Amosa</option>
-                            <option value="Familia Kretschmar">Familia Kretschmar</option>
-                            <option value="Tiammat">Tiammat</option>
-                            <option value="Iaccarini">Iaccarini</option>
-                            <option value="Che Bandoneon">Che Bandoneon</option>
-                            <option value="Aicardi">Aicardi</option>
-                            <option value="Schiavi">Schiavi</option>
-                        </select>
-                        <select name="referencia_8" class="reference-select col-span-6 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                            <option value="" disabled selected>Selecciona una referencia</option>
-                        </select>
-                        <input type="number" name="cantidad_8" min="1" class="qty-input col-span-2 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-center">
-                    </div>
-                </div>
+        <textarea id="observaciones" rows="3" placeholder="Observaciones" class="w-full p-2 border rounded"></textarea>
 
-                <!-- Sección: Observaciones -->
-                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                    <h2 class="text-2xl font-semibold text-gray-700 mb-4">Observaciones</h2>
-                    <div>
-                        <label for="observaciones" class="block text-sm font-medium text-gray-700 mb-1">Observaciones adicionales</label>
-                        <textarea id="observaciones" name="observaciones" rows="4" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
-                    </div>
-                </div>
-            </form>
-
-            <!-- Mensaje de error para validación -->
-            <div id="errorMessage" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md mt-4" role="alert">
-                <p>Por favor, completa todos los campos obligatorios y selecciona al menos un producto con su cantidad.</p>
-            </div>
-
-            <!-- Botón único para enviar por WhatsApp -->
-            <div class="text-center pt-4">
-                <button id="submitWhatsappButton" class="w-full md:w-auto inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200">
-                    Enviar por WhatsApp
-                </button>
-            </div>
+        <div id="productosContainer" class="space-y-2">
+            <!-- productos dinámicos aquí -->
         </div>
+        <button onclick="agregarProducto()" class="bg-blue-500 text-white px-4 py-2 rounded">+ Agregar producto</button>
+
+        <button onclick="generarResumen()" class="bg-yellow-500 text-white px-4 py-2 rounded w-full">🔍 Vista previa</button>
+
+        <pre id="preview" class="bg-gray-200 p-4 rounded text-sm whitespace-pre-wrap"></pre>
+
+        <a id="whatsappLink" target="_blank" class="block text-center bg-green-600 text-white p-3 rounded hover:bg-green-700 transition">📤 Enviar por WhatsApp</a>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const form = document.getElementById('orderForm');
-            const submitWhatsappButton = document.getElementById('submitWhatsappButton');
-            const winerySelects = document.querySelectorAll('.winery-select');
-            const referenceSelects = document.querySelectorAll('.reference-select');
-            const errorMessageDiv = document.getElementById('errorMessage');
-
-            // Objeto con las referencias por bodega, basado en el archivo de imagen
-            const winesByWinery = {
-                "A Corazon Abierto": ["Malbec Etiqueta Negra", "Cabernet Franc Etiqueta Negra", "Cabernet Sauvignon Etiqueta Negra", "Gran Malbec", "Gran Corte"],
-                "Amosa": ["Amosa Chardonnay", "Amosa Rose", "Amosa Malbec de la Casa", "Amosa Gran Blend"],
-                "Familia Kretschmar": ["Chupasangre Cabernet Sauvignon", "Chupasangre Malbec", "Chupasangre Malbec Rose", "Chupasangre Gran Corte Blend", "Sanguinaria Malbec", "Sanguinaria Cabernet Franc", "4 Brotes Malbec"],
-                "Tiammat": ["N° 7", "N° 9", "N° 10", "N° 11", "N° 12", "N° 14"],
-                "Iaccarini": ["Via Blanca White Blend", "Via Blanca Malbec", "Via Blanca Bonarda", "Via Blanca Cabernet Sauvignon", "Via Blanca Red Blend", "Via Blanca Terroir Selection Malbec", "Via Blanca Terroir Selection Cabernet Sauvignon", "Via Blanca Terroir Selection Blend de Tintas", "Cavas Don Nicasio Assemblage I BN - SY", "Cavas Don Nicasio Assemblage II MB - MB", "Cavas Don Nicasio Assemblage III CS - MB - PV", "Cavas Don Nicasio Single Vineyard Malbec"],
-                "Che Bandoneon": ["Che bandoneon Cab. Franc", "Che Bandoneon Malbec", "Che Bandoneon Cab. Sauvignon", "Che Bandoneon Reserva Malbec"],
-                "Aicardi": ["Serie Terroir Pinot Noir Contraflor", "Serie Terroir Malbec Contraflor", "Parcela Única Reserva Malbec", "Parcela Única Reserva Cab. Sauvignon", "Parcela Única Reserva Merlot", "Parcela Única Reserva Pinot Noir", "Parcela Única Reserva Cab. Franc", "Barrel Fermented Cab. Franc", "Barrel Fermented Red Blend Malbec/Cab. Sauv.", "Barrel Fermented Cab. Franc Cab. Franc/Merlot"],
-                "Schiavi": ["Último Hombre Chenin"]
-            };
-
-            // Establece la fecha de hoy por defecto
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('fecha').value = today;
-
-            // Función para actualizar las opciones de referencia
-            function updateReferences(winerySelect, referenceSelect) {
-                const selectedWinery = winerySelect.value;
-                const references = winesByWinery[selectedWinery] || [];
-                
-                // Limpiar las opciones existentes
-                referenceSelect.innerHTML = '<option value="" disabled selected>Selecciona una referencia</option>';
-
-                // Agregar las nuevas opciones
-                references.forEach(ref => {
-                    const option = document.createElement('option');
-                    option.value = ref;
-                    option.textContent = ref;
-                    referenceSelect.appendChild(option);
-                });
-            }
-
-            // Asignar el listener de evento a cada select de bodega
-            winerySelects.forEach((winerySelect, index) => {
-                winerySelect.addEventListener('change', () => {
-                    updateReferences(winerySelect, referenceSelects[index]);
-                });
-            });
-
-            // Maneja el clic del botón de WhatsApp
-            submitWhatsappButton.addEventListener('click', (event) => {
-                event.preventDefault();
-
-                // Ocultar cualquier mensaje de error anterior
-                errorMessageDiv.classList.add('hidden');
-
-                // Validar que al menos una referencia haya sido seleccionada
-                let hasProduct = false;
-                for (let i = 0; i < referenceSelects.length; i++) {
-                    const refInput = referenceSelects[i];
-                    const qtyInput = document.querySelector(`input[name="cantidad_${i+1}"]`);
-                    if (refInput.value && qtyInput.value && refInput.value.trim() !== '') {
-                        hasProduct = true;
-                        break;
-                    }
-                }
-
-                if (!form.reportValidity() || !hasProduct) {
-                    errorMessageDiv.classList.remove('hidden');
-                    return;
-                }
-
-                const formData = new FormData(form);
-                const order = {};
-                const productos = [];
-
-                order.vendedora = formData.get('vendedora');
-                order.fecha = formData.get('fecha');
-                order.cliente = formData.get('cliente');
-                order.razon_social = formData.get('razon_social');
-                order.direccion_legal = formData.get('direccion_legal');
-                order.direccion = formData.get('direccion');
-                order.localidad = formData.get('localidad');
-                order.provincia = formData.get('provincia');
-                order.cuit = formData.get('cuit');
-                order.situacion_fiscal = formData.get('situacion_fiscal');
-                order.observaciones = formData.get('observaciones');
-                
-                // Recorre los campos de bodega, referencia y cantidad
-                for (let i = 1; i <= 8; i++) {
-                    const bodega = formData.get(`bodega_${i}`);
-                    const ref = formData.get(`referencia_${i}`);
-                    const qty = formData.get(`cantidad_${i}`);
-                    // Solo añade los productos con referencia y cantidad
-                    if (bodega && ref && qty && ref.trim() !== '') {
-                        productos.push({ bodega: bodega, referencia: ref, cantidad: qty });
-                    }
-                }
-                order.productos = productos;
-
-                let summaryText = '--- Resumen del Pedido ---\n\n';
-                summaryText += `Vendedor/a: ${order.vendedora || 'No especificado'}\n`;
-                summaryText += `Pedido: ${order.fecha || 'No especificado'}\n`;
-                summaryText += `Cliente: ${order.cliente || 'No especificado'}\n`;
-                if (order.razon_social) summaryText += `Razón Social: ${order.razon_social}\n`;
-                if (order.direccion_legal) summaryText += `Dirección Legal: ${order.direccion_legal}\n`;
-                summaryText += `Dirección de entrega, fecha y horario aproximado: ${order.direccion || 'No especificado'}\n`;
-                summaryText += `Localidad: ${order.localidad || 'No especificado'}\n`;
-                if (order.provincia) summaryText += `Provincia: ${order.provincia}\n`;
-                if (order.cuit) summaryText += `CUIT: ${order.cuit}\n`;
-                if (order.situacion_fiscal) summaryText += `Situación Fiscal: ${order.situacion_fiscal}\n`;
-                summaryText += `\n--- Productos ---\n`;
-                if (order.productos.length > 0) {
-                    order.productos.forEach(item => {
-                        summaryText += `${item.bodega} - ${item.referencia}: ${item.cantidad} unidades\n`;
-                    });
-                } else {
-                    summaryText += 'Ningún producto seleccionado.\n';
-                }
-                summaryText += `\n--- Observaciones ---\n`;
-                summaryText += order.observaciones || 'Ninguna.\n';
-                summaryText += `\n-----------------------\n`;
-
-                // Abrir directamente en WhatsApp
-                const encodedText = encodeURIComponent(summaryText);
-                const whatsappUrl = `https://api.whatsapp.com/send?text=${encodedText}`;
-                window.open(whatsappUrl, '_blank');
-            });
-        });
+        // Cargar uno por defecto
+        window.onload = agregarProducto;
     </script>
 </body>
 </html>
+"""
+
+# Guardar archivo
+html_path = "/mnt/data/formulario_pedido_completo.html"
+with open(html_path, "w", encoding="utf-8") as f:
+    f.write(full_html_content)
+
+html_path
+
 
