@@ -17,10 +17,10 @@
 
     <!-- Datos del Cliente -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <input type="text" placeholder="Nombre del Cliente" class="border p-2 rounded w-full" />
-      <input type="text" placeholder="Razón Social" class="border p-2 rounded w-full" />
-      <input type="text" placeholder="CUIT" class="border p-2 rounded w-full" />
-      <select class="border p-2 rounded w-full">
+      <input id="nombre" type="text" placeholder="Nombre del Cliente" class="border p-2 rounded w-full" />
+      <input id="razon" type="text" placeholder="Razón Social" class="border p-2 rounded w-full" />
+      <input id="cuit" type="text" placeholder="CUIT" class="border p-2 rounded w-full" />
+      <select id="fiscal" class="border p-2 rounded w-full">
         <option value="">Situación Fiscal</option>
         <option value="Responsable Inscripto">Responsable Inscripto</option>
         <option value="Monotributista">Monotributista</option>
@@ -28,10 +28,10 @@
         <option value="No Responsable">No Responsable</option>
         <option value="Consumidor Final">Consumidor Final</option>
       </select>
-      <input type="text" placeholder="Dirección Legal" class="border p-2 rounded w-full" />
-      <input type="text" placeholder="Dirección de Entrega" class="border p-2 rounded w-full" />
-      <input type="text" placeholder="Lugar de Entrega" class="border p-2 rounded w-full" />
-      <input type="date" class="border p-2 rounded w-full" />
+      <input id="direccion_legal" type="text" placeholder="Dirección Legal" class="border p-2 rounded w-full" />
+      <input id="direccion_entrega" type="text" placeholder="Dirección de Entrega" class="border p-2 rounded w-full" />
+      <input id="lugar" type="text" placeholder="Lugar de Entrega" class="border p-2 rounded w-full" />
+      <input id="fecha" type="date" class="border p-2 rounded w-full" />
     </div>
 
     <!-- Productos -->
@@ -42,12 +42,12 @@
     </button>
 
     <!-- Condiciones de pago -->
-    <input type="text" placeholder="Condición de Pago" class="border p-2 rounded w-full" />
+    <input id="pago" type="text" placeholder="Condición de Pago" class="border p-2 rounded w-full" />
 
     <!-- Vista previa del pedido -->
     <div>
       <label class="font-bold">Resumen para WhatsApp:</label>
-      <textarea id="resumenPedido" class="border p-2 rounded w-full mt-2" rows="8" readonly></textarea>
+      <textarea id="resumenPedido" class="border p-2 rounded w-full mt-2" rows="10" readonly></textarea>
     </div>
 
     <!-- Botón enviar por WhatsApp -->
@@ -99,7 +99,7 @@
       ]
     };
 
-    function crearLinea(index) {
+    function crearLinea() {
       const div = document.createElement('div');
       div.className = "grid grid-cols-1 md:grid-cols-3 gap-2";
 
@@ -141,18 +141,40 @@
 
     function agregarLinea() {
       const container = document.getElementById('productos');
-      container.appendChild(crearLinea(container.children.length));
+      container.appendChild(crearLinea());
     }
 
     function generarResumen() {
+      const nombre = document.getElementById('nombre').value;
+      const razon = document.getElementById('razon').value;
+      const cuit = document.getElementById('cuit').value;
+      const fiscal = document.getElementById('fiscal').value;
+      const dirLegal = document.getElementById('direccion_legal').value;
+      const dirEntrega = document.getElementById('direccion_entrega').value;
+      const lugar = document.getElementById('lugar').value;
+      const fecha = document.getElementById('fecha').value;
+      const pago = document.getElementById('pago').value;
+
+      let resumen = `📦 *Pedido de Vinos AWS* 📦\n\n`;
+      resumen += `👤 Cliente: ${nombre}\n`;
+      resumen += `🏢 Razón Social: ${razon}\n`;
+      resumen += `🔢 CUIT: ${cuit}\n`;
+      resumen += `📄 Situación Fiscal: ${fiscal}\n`;
+      resumen += `📍 Dirección Legal: ${dirLegal}\n`;
+      resumen += `📦 Dirección de Entrega: ${dirEntrega}\n`;
+      resumen += `🌍 Lugar de Entrega: ${lugar}\n`;
+      resumen += `📅 Fecha: ${fecha}\n`;
+      resumen += `💳 Condición de Pago: ${pago}\n\n`;
+
       const productosDiv = document.getElementById('productos');
       const lineas = productosDiv.querySelectorAll('.grid');
-      let resumen = '';
-
       lineas.forEach((linea, index) => {
         const [bodega, producto, cantidad] = linea.querySelectorAll('select, input');
         if (bodega.value && producto.value && cantidad.value) {
-          resumen += `Producto ${index + 1}:\nBodega: ${bodega.value}\nProducto: ${producto.value}\nCantidad: ${cantidad.value}\n\n`;
+          resumen += `🧾 Producto ${index + 1}:\n`;
+          resumen += `Bodega: ${bodega.value}\n`;
+          resumen += `Producto: ${producto.value}\n`;
+          resumen += `Cantidad: ${cantidad.value}\n\n`;
         }
       });
 
@@ -160,6 +182,7 @@
       document.getElementById('btnWhatsapp').href = "https://wa.me/?text=" + encodeURIComponent(resumen.trim());
     }
 
+    // Inicializar con 5 líneas
     for (let i = 0; i < 5; i++) agregarLinea();
   </script>
 </body>
