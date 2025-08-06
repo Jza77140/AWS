@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Formulario de Pedido AWS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 p-4">
+  <div class="max-w-5xl mx-auto bg-white shadow-lg rounded-xl p-6 space-y-6">
+    <h1 class="text-3xl font-bold text-center text-gray-800">Formulario de Pedido</h1>
+
+    <!-- Datos del Cliente -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <input id="nombre" type="text" placeholder="Nombre del Cliente" class="border p-2 rounded w-full" />
+      <input id="razon" type="text" placeholder="Razón Social" class="border p-2 rounded w-full" />
+      <input id="cuit" type="text" placeholder="CUIT" class="border p-2 rounded w-full" />
+      <select id="fiscal" class="border p-2 rounded w-full">
+        <option value="">Situación Fiscal</option>
+        <option value="Responsable Inscripto">Responsable Inscripto</option>
+        <option value="Monotributista">Monotributista</option>
+        <option value="Exento">Exento</option>
+        <option value="No Responsable">No Responsable</option>
+        <option value="Consumidor Final">Consumidor Final</option>
+      </select>
+      <input id="direccion_legal" type="text" placeholder="Dirección Legal" class="border p-2 rounded w-full" />
+      <input id="direccion_entrega" type="text" placeholder="Dirección de Entrega" class="border p-2 rounded w-full" />
+      <input id="fecha" type="date" class="border p-2 rounded w-full" placeholder="Fecha de Entrega" />
+      <input id="horario" type="time" class="border p-2 rounded w-full" placeholder="Horario de Entrega" />
+    </div>
+
+    <!-- Productos -->
+    <div id="productos" class="space-y-4"></div>
+
+    <button type="button" onclick="agregarLinea()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+      + Agregar producto
+    </button>
+
+    <!-- Condiciones de pago -->
+    <input id="pago" type="text" placeholder="Condición de Pago" class="border p-2 rounded w-full" />
+
+    <!-- Observaciones -->
+    <div>
+      <label for="observaciones" class="font-bold block mb-1">Observaciones / Promos / Botellas</label>
+      <textarea id="observaciones" placeholder="Escribí aquí detalles adicionales del pedido..." class="border p-2 rounded w-full" rows="4"></textarea>
+    </div>
+
+    <!-- Vista previa del pedido -->
+    <div>
+      <label class="font-bold">Resumen para WhatsApp:</label>
+      <textarea id="resumenPedido" class="border p-2 rounded w-full mt-2" rows="10" readonly></textarea>
+    </div>
+
+    <!-- Botón enviar por WhatsApp -->
+    <a id="btnWhatsapp" target="_blank" class="block bg-green-600 text-white text-center py-3 rounded font-bold">
+      Enviar pedido por WhatsApp
+    </a>
+  </div>
+
+  <script>
+    const bodegas = {
+      "A Corazon Abierto": [
+        "Malbec Etiqueta Negra", "Cabernet Franc Etiqueta Negra", "Cabernet Sauvignon Etiqueta Negra", "Gran Malbec", "Gran Corte"
+      ],
+      "Amosa": [
+        "Chardonnay", "Rosé", "Malbec de la Casa", "Gran Blend"
+      ],
+      "Tiammat": [
+        "N° 7", "N° 9", "N° 10", "N° 11", "N° 12", "N° 14"
+      ],
+      "Iaccarini": [
+        "Via Blanca White Blend", "Via Blanca Malbec", "Via Blanca Bonarda", "Via Blanca Cabernet Sauvignon",
+        "Via Blanca Red Blend", "Via Blanca Terroir Selection Malbec", "Via Blanca Terroir Selection Cabernet Sauvignon"
+      ],
+      "Che Bandoneon": [
+        "Malbec", "Cabernet Sauvignon", "Cabernet Franc", "Reserva Malbec"
+      ],
+      "Aicardi": [
+        "Aicardi Malbec", "Aicardi Cabernet Sauvignon", "Aicardi Chardonnay"
+      ],
+      "Schiavi": [
+        "Gran Malbec", "Gran Cabernet", "Gran Blend"
+      ]
+    };
+
+    function crearLinea() {
+      const div = document.createElement('div');
+      div.className = "grid grid-cols-1 md:grid-cols-3 gap-2";
+
+      const selectBodega = document.createElement('select');
+      selectBodega.className = "border p-2 rounded";
+      selectBodega.innerHTML = `<option value="">Seleccione Bodega</option>` +
+        Object.keys(bodegas).map(b => `<option value="${b}">${b}</option>`).join('');
+      selectBodega.onchange = function () {
+        selectProducto.innerHTML = '<option value="">Seleccione Producto</option>';
+        if (bodegas[selectBodega.value]) {
+          bodegas[selectBodega.value].forEach(prod => {
+            const option = document.createElement('option');
+            option.value = prod;
+            option.textContent = prod;
+            selectProducto.appendChild(option);
+          });
+        }
+        generarResumen();
+      };
+
+      const selectProducto = document.createElement('select');
+      selectProducto.className = "border p-2 rounded";
+      selectProducto.innerHTML = '<option value="">Seleccione Producto</option>';
+      selectProducto.onchange = generarResumen;
+
+      const inputCantidad = document.createElement('input');
+      inputCantidad.type = "number";
+      inputCantidad.min = "1";
+      inputCantidad.placeholder = "Cantidad";
+      inputCantidad.className = "border p-2 rounded";
+      inputCantidad.oninput = generarResumen;
+
+      div.appendChild(selectBodega);
+      div.appendChild(selectProducto);
+      div.appendChild(inputCantidad);
+
+      return div;
+    }
+
+    function agregarLinea() {
+      const container = document.getElementById('productos');
+      container.appendChild(crearLinea());
+    }
+
+    function generarResumen() {
+      const nombre = document.getElementById('nombre').value;
+      const razon = document.getElementById('razon').value;
+      const cuit = document.getElementById('cuit').value;
+      const fiscal = document.getElementById('fiscal').value;
+      const dirLegal = document.getElementById('direccion_legal').value;
+      const dirEntrega = document.getElementById('direccion_entrega').value;
+      const fecha = document.getElementById('fecha').value;
+      const horario = document.getElementById('horario').value;
+      const pago = document.getElementById('pago').value;
+      const obs = document.getElementById('observaciones').value;
+
+      let resumen = `📝 *Formulario de Pedido AWS* 📝\n\n`;
+      resumen += `👤 *Nombre:* ${nombre || '-'}\n`;
+      resumen += `🏢 *Razón Social:* ${razon || '-'}\n`;
+      resumen += `🔢 *CUIT:* ${cuit || '-'}\n`;
+      resumen += `📄 *Situación Fiscal:* ${fiscal || '-'}\n`;
+      resumen += `🏠 *Dirección Legal:* ${dirLegal || '-'}\n`;
+      resumen += `📦 *Dirección de Entrega:* ${dirEntrega || '-'}\n`;
+      resumen += `📅 *Fecha de Entrega:* ${fecha || '-'}\n`;
+      resumen += `⏰ *Horario de Entrega:* ${horario || '-'}\n`;
+      resumen += `💳 *Condición de Pago:* ${pago || '-'}\n\n`;
+
+      const productosDiv = document.getElementById('productos');
+      const lineas = productosDiv.querySelectorAll('.grid');
+      lineas.forEach((linea, index) => {
+        const [bodega, producto, cantidad] = linea.querySelectorAll('select, input');
+        if (bodega.value && producto.value && cantidad.value) {
+          resumen += `🧾 *Producto ${index + 1}:*\n`;
+          resumen += `Bodega: ${bodega.value}\n`;
+          resumen += `Producto: ${producto.value}\n`;
+          resumen += `Cantidad: ${cantidad.value}\n\n`;
+        }
+      });
+
+      if (obs.trim() !== "") {
+        resumen += `📝 *Observaciones:* ${obs.trim()}\n`;
+      }
+
+      document.getElementById('resumenPedido').value = resumen.trim();
+      document.getElementById('btnWhatsapp').href = "https://wa.me/?text=" + encodeURIComponent(resumen.trim());
+    }
+
+    for (let i = 0; i < 5; i++) agregarLinea();
+  </script>
+</body>
+</html>
