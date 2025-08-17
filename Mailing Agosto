@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Infoviñedos - Informe Agosto</title>
+</head>
+<body style="margin:0; padding:0; background:#ffffff; font-family:Arial, Helvetica, sans-serif;">
+
+  <!-- Reemplaza la URL del background por tu hosting/CDN si lo deseas -->
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#ffffff url('A_newsletter_cover_image_exhibits_a_clean,_minimal.png') no-repeat top center; background-size:cover;">
+    <tr>
+      <td align="center" style="padding:40px 16px;">
+        <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="width:600px; max-width:100%; background:rgba(255,255,255,0.9); padding:24px; border-radius:12px;">
+          
+          <!-- Título -->
+          <tr>
+            <td style="text-align:center; font-size:26px; font-weight:bold; color:#7c2d37; padding-bottom:8px;">
+              Infoviñedos
+            </td>
+          </tr>
+          <tr>
+            <td style="text-align:center; font-size:16px; color:#555; padding-bottom:24px;">
+              Novedades sobre vino argentino – Informe Agosto 2025
+            </td>
+          </tr>
+
+          <!-- Noticias (link + fecha + fuente) -->
+          <tr>
+            <td style="font-size:15px; color:#111; line-height:1.7; text-align:left;">
+              <ul style="padding-left:18px; margin:0;">
+                <li>
+                  <a href="https://www.decanter.com/wine-news/argentina-a-vinous-powerhouse-in-south-america-561681/" target="_blank" style="color:#7c2d37; text-decoration:none;">
+                    Argentina entre los países con mayor crecimiento de medallas internacionales en 2025 — 28/07/2025 — Decanter
+                  </a>
+                </li>
+                <li>
+                  <a href="https://winesofargentina.org/en/single-news/03_07_2025/wofa-strengthens-its-positioning-strategy-in-focus-markets-for-argentine-wine" target="_blank" style="color:#7c2d37; text-decoration:none;">
+                    WofA refuerza su posicionamiento en mercados foco (AWTC) — 03/07/2025 — Wines of Argentina
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.winesofargentina.org/en/single-news/22_07_2025/the-sociedad-rural-argentina-and-wines-of-argentina-sign-a-framework-cooperation-agreement-to-promote-sustainability-in-agriculture-and-viticulture" target="_blank" style="color:#7c2d37; text-decoration:none;">
+                    Acuerdo WofA–Sociedad Rural para promover sostenibilidad — 22/07/2025 — Wines of Argentina
+                  </a>
+                </li>
+                <li>
+                  <a href="https://winesofargentina.org/en/single-news/28_07_2025/mendoza-celebrates-20-years-of-sustainability-with-an-unprecedented-edition" target="_blank" style="color:#7c2d37; text-decoration:none;">
+                    Mendoza celebra 20 años de sostenibilidad (Valos Forum) — 28/07/2025 — Wines of Argentina
+                  </a>
+                </li>
+                <li>
+                  <a href="https://drinksint.com/news/fullstory.php/aid/11829/Argentina_92s_white_wine_revolution.html" target="_blank" style="color:#7c2d37; text-decoration:none;">
+                    Revolución del vino blanco argentino — 08/07/2025 — Drinks International
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.internationalwinechallenge.com/Canopy-Articles/iwc-wine-industry-awards-argentina-a-landmark-celebration-of-the-wine-ecosystem.html" target="_blank" style="color:#7c2d37; text-decoration:none;">
+                    IWC Wine Industry Awards llegan a Argentina — 07/2025 — International Wine Challenge (Canopy)
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.vinetur.com/2025070389355/alta-gama-buenos-aires-reunira-a-mas-de-800-amantes-del-vino-y-spirits-en-el-palacio-paz.html" target="_blank" style="color:#7c2d37; text-decoration:none;">
+                    Alta Gama Buenos Aires convoca a profesionales y aficionados — 03/07/2025 — Vinetur
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.vinetur.com/2025072489985/argentine-wine-faces-complex-path-in-expanding-presence-in-united-states-market.html" target="_blank" style="color:#7c2d37; text-decoration:none;">
+                    Argentina busca ampliar presencia en el mercado de EE. UU. — 24/07/2025 — Vinetur
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.vinetur.com/2025080790330/el-vino-embotellado-gana-terreno-y-los-varietales-irrumpen-en-segmentos-de-precio-bajo.html" target="_blank" style="color:#7c2d37; text-decoration:none;">
+                    El vino embotellado gana terreno; varietales irrumpen en precio bajo — 07/08/2025 — Vinetur
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.thedrinksbusiness.com/2025/08/argentine-wines-blockchain-awakening/" target="_blank" style="color:#7c2d37; text-decoration:none;">
+                    “Blockchain awakening” en el vino argentino — 07/08/2025 — The Drinks Business
+                  </a>
+                </li>
+              </ul>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
